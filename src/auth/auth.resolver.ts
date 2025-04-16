@@ -4,8 +4,9 @@ import { AuthResponse } from './types/auth-response.type';
 import { RequireAuth } from './decorators/require-auth.decorator';
 import { User } from '../users/entities/user.entity';
 import { GetAuthUser } from './decorators/get-auth-user.decorator';
-import { SignUpInput } from './dto/inputs/sign-up.input';
 import { SignInInput } from './dto/inputs/sign-in.input';
+import { SignUpInput } from './dto/inputs/sign-up.input';
+
 
 @Resolver()
 export class AuthResolver {
@@ -15,7 +16,7 @@ export class AuthResolver {
   ) {}
 
   @Mutation( () => AuthResponse, { name: 'signUp' })
-  async signUp(
+  async signUpStudent(
     @Args('signUpInput') signUpInput: SignUpInput
   ): Promise<AuthResponse> {
     return this.authService.signUp(signUpInput);

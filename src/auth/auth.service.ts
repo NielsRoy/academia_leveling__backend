@@ -3,10 +3,10 @@ import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { AuthResponse } from './types/auth-response.type';
 import { JwtService } from '@nestjs/jwt';
-import { SignUpInput } from './dto/inputs/sign-up.input';
 import { SignInInput } from './dto/inputs/sign-in.input';
 import { HASH_ADAPTER } from '../common/adapters/constants';
 import { HashAdapter } from '../common/adapters/hash/hash.adapter';
+import { SignUpInput } from './dto/inputs/sign-up.input';
 
 @Injectable()
 export class AuthService {

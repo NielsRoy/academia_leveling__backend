@@ -10,9 +10,17 @@ export class User {
   @Field( () => ID )
   id: number;
 
-  @Column()
+  @Column({
+    name: 'first_name',
+  })
   @Field( () => String )
-  fullName: string;
+  firstName: string;
+  
+  @Column({
+    name: 'last_name',
+  })
+  @Field( () => String )
+  lastName: string;
 
   @Column({ unique: true })
   @Field( () => String )
@@ -21,11 +29,12 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: Role.STUDENT })
+  @Column()
   @Field( () => Role)
   role: Role;
 
   @Column({
+    name: 'is_active',
     type: 'boolean',
     default: true
   })
