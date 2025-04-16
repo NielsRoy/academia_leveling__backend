@@ -4,7 +4,8 @@
 
 type User {
   id: ID!
-  fullName: String!
+  firstName: String!
+  lastName: String!
   email: String!
   role: Role!
   isActive: Boolean!
@@ -31,8 +32,10 @@ type Mutation {
 
 input SignUpInput {
   email: String!
-  fullName: String!
   password: String!
+  firstName: String!
+  lastName: String!
+  role: Role!
 }
 
 input SignInInput {

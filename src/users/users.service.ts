@@ -27,6 +27,8 @@ export class UsersService {
       const newUser = this.usersRepository.create({
         ...signUpInput,
         password: this.hashAdapter.hash(signUpInput.password),
+        firstName: signUpInput.firstName.toLowerCase(),
+        lastName: signUpInput.lastName.toLowerCase(),
       });
       return await this.usersRepository.save(newUser);
 

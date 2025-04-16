@@ -17,5 +17,7 @@ async function bootstrap() {
   await app.listen( PORT );
   
   logger.log(`App running on port ${PORT}`);
+
+  logger.log(`Check the app on http://localhost:${PORT}/graphql`);
 }
 bootstrap();
