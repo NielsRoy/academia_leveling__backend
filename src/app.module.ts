@@ -8,6 +8,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
+import { ClassroomsModule } from './classrooms/classrooms.module';
+import { TeachersModule } from './teachers/teachers.module';
+import { StudentsModule } from './students/students.module';
+import { CoursesModule } from './courses/courses.module';
+import { SubjectsModule } from './subjects/subjects.module';
+import { AchievementsModule } from './achievements/achievements.module';
 
 @Module({
   imports: [
@@ -32,6 +38,12 @@ import { CommonModule } from './common/common.module';
     AuthModule,
     UsersModule,
     CommonModule,
+    ClassroomsModule,
+    TeachersModule,
+    StudentsModule,
+    CoursesModule,
+    SubjectsModule,
+    AchievementsModule,
   ],
   controllers: [],
   providers: [],

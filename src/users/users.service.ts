@@ -3,9 +3,9 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { SignUpInput } from '../auth/dto/inputs/sign-up.input';
 import { HASH_ADAPTER } from '../common/adapters/constants';
 import { HashAdapter } from '../common/adapters/hash/hash.adapter';
+import { CreateUserInput } from './dto/create-user.input';
 
 @Injectable()
 export class UsersService {
@@ -22,16 +22,15 @@ export class UsersService {
 
   ) {}
 
-  async create(signUpInput: SignUpInput): Promise<User> {
+  async create(createUserInput: CreateUserInput): Promise<User> {
     try {
       const newUser = this.usersRepository.create({
-        ...signUpInput,
-        password: this.hashAdapter.hash(signUpInput.password),
-        firstName: signUpInput.firstName.toLowerCase(),
-        lastName: signUpInput.lastName.toLowerCase(),
+        ...createUserInput,
+        password: this.hashAdapter.hash(createUserInput.password),
+        firstName: createUserInput.firstName.toLowerCase(),
+        lastName: createUserInput.lastName.toLowerCase(),
       });
       return await this.usersRepository.save(newUser);
-
     } catch (error) {
       this.handleDBErrors(error);
     }

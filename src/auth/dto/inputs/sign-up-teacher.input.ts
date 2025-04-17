@@ -1,9 +1,8 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { IsEmail, IsEnum, IsNotEmpty, MinLength } from 'class-validator';
-import { Role } from '../../enum/role.enum';
+import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsEmail, IsEnum, IsNotEmpty, IsPositive, Min, MinLength } from 'class-validator';
 
 @InputType()
-export class SignUpInput {
+export class SignUpTeacherInput {
 
   @Field( () => String )
   @IsEmail()
@@ -21,8 +20,9 @@ export class SignUpInput {
   @IsNotEmpty()
   lastName: string;
 
-  @Field( () => Role )
-  @IsEnum(Role)
-  role: Role;
+  @Field(() => Int)
+  @IsPositive()
+  @Min(999999)
+  cellphone: number;
 
 }
