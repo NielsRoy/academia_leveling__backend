@@ -16,13 +16,20 @@ enum Role {
   STUDENT
 }
 
+type Course {
+  id: Int!
+  title: String!
+  description: String
+}
+
 type Classroom {
-  id: ID!
+  id: Int!
   code: String!
   name: String!
   description: String
   createdAt: DateTime!
   teacher: Teacher!
+  course: Course!
 }
 
 """
@@ -52,6 +59,9 @@ type Mutation {
   signUpTeacher(signUpTeacherInput: SignUpTeacherInput!): AuthResponse!
   signIn(signInInput: SignInInput!): AuthResponse!
   createClassroom(createClassroomInput: CreateClassroomInput!): Classroom!
+
+  """Ejecuta la población de la base de datos"""
+  executeSeed: Boolean!
 }
 
 input SignUpStudentInput {

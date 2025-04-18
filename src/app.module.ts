@@ -13,6 +13,7 @@ import { StudentsModule } from './students/students.module';
 import { CoursesModule } from './courses/courses.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { AchievementsModule } from './achievements/achievements.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { AchievementsModule } from './achievements/achievements.module';
     CoursesModule,
     SubjectsModule,
     AchievementsModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],
