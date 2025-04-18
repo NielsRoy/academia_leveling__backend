@@ -8,7 +8,7 @@ import { Classroom } from './classroom.entity';
 export class Teacher {
 
   @PrimaryGeneratedColumn()
-  @Field( () => ID )
+  @Field( () => ID )  //todo: verificar si esto regresa el id como string y cambiar ID por Int
   id: number;
 
   @Column()

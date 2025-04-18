@@ -6,6 +6,7 @@ import { TeachersResolver } from './resolvers/teachers.resolver';
 import { TeachersService } from './services/teachers.service';
 import { ClassroomsService } from './services/classrooms.service';
 import { Classroom } from './entities/classroom.entity';
+import { CoursesModule } from '../courses/courses.module';
 
 @Module({
   providers: [
@@ -19,6 +20,7 @@ import { Classroom } from './entities/classroom.entity';
       Teacher,
       Classroom,
     ]),
+    CoursesModule
   ],
   exports: [
     TeachersService,

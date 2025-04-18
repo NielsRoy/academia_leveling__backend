@@ -34,6 +34,7 @@ import { SeedModule } from './seed/seed.module';
       database: process.env.DB_NAME,
       synchronize: true,  //! Esto en produccion deberia ser false
       autoLoadEntities: true,
+      //namingStrategy: new SnakeNamingStrategy(), //? para que las columnas se nombren con snake_case //? Instalando npm install typeorm-naming-strategies      
     }),
     AuthModule,
     UsersModule,

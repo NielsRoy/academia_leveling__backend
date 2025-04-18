@@ -12,7 +12,8 @@ import { Course } from './entities/course.entity';
     ]),
   ],
   exports: [
-    TypeOrmModule
+    TypeOrmModule,
+    CoursesService,
   ]
 })
 export class CoursesModule {}

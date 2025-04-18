@@ -7,6 +7,7 @@ import { Teacher } from '../entities/teacher.entity';
 import { UpdateClassroomInput } from '../dto/classroom/update-classroom.input';
 import { User } from '../../users/entities/user.entity';
 import { TeachersService } from './teachers.service';
+import { CoursesService } from '../../courses/courses.service';
 
 @Injectable()
 export class ClassroomsService {
@@ -17,14 +18,18 @@ export class ClassroomsService {
     private readonly classroomsRepository: Repository<Classroom>,
 
     private readonly teachersService: TeachersService,
+    private readonly coursesService :CoursesService,
 
   ) {}
 
   async create(createClassroomInput: CreateClassroomInput, user: User): Promise<Classroom> {
+    const { courseId, ...rest } = createClassroomInput;
     const teacher = await this.teachersService.findOneByUser(user);
+    const course = await this.coursesService.findOne(courseId);
     const newClassroom = this.classroomsRepository.create({
-      ...createClassroomInput,
+      ...rest,
       teacher,
+      course,
     });
     return await this.classroomsRepository.save(newClassroom);
   }

@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Teacher } from '../../teachers/entities/teacher.entity';
 import { Course } from '../../courses/entities/course.entity';
 
@@ -33,13 +33,15 @@ export class Classroom {
   createdAt: Date;
 
   @ManyToOne( () => Teacher, (teacher) => teacher.classrooms, { nullable: false, lazy: true } )
-  @Index('teacherId-index')
+  @JoinColumn({ name: 'teacher_id' })
+  @Index('CLASSROOM_TEACHER_ID_INDEX', ['teacher_id'])
   @Field( () => Teacher )
   teacher: Teacher;
 
-  @ManyToOne( () => Course, (course) => course.classrooms, { nullable: false, lazy: true } )
-  @Index('courseId-index')
-  @Field( () => Course )
+  @ManyToOne(() => Course, (course) => course.classrooms, { nullable: false, lazy: true })
+  @JoinColumn({ name: 'course_id' })
+  @Index('CLASSROOM_COURSE_ID_INDEX', ['course_id'])
+  @Field(() => Course)
   course: Course;
 
 }

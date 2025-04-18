@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Course } from '../../courses/entities/course.entity';
 
 @Entity({ name: 'subjects' })
@@ -25,7 +25,8 @@ export class Subject {
   description?: string;
 
   @ManyToOne( () => Course, (course) => course.subjects, { nullable: false, lazy: true } )
-  //@Index('courseId-index')
+  @JoinColumn({ name: 'course_id' })
+  @Index('SUBJECT_COURSE_ID_INDEX', ['course_id'])
   @Field( () => Course )
   course: Course;
 

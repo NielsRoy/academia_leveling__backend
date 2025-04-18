@@ -1,5 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsPositive, IsString, MaxLength } from 'class-validator';
 
 @InputType()
 export class CreateClassroomInput {
@@ -14,5 +14,9 @@ export class CreateClassroomInput {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @Field( () => Int )
+  @IsPositive()
+  courseId: number;
 
 }
