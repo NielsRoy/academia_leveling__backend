@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTeacherInput } from './dto/create-teacher.input';
-import { UpdateTeacherInput } from './dto/update-teacher.input';
-import { Teacher } from './entities/teacher.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Teacher } from '../entities/teacher.entity';
+import { CreateTeacherInput } from '../dto/teacher/create-teacher.input';
+import { User } from '../../users/entities/user.entity';
+import { UpdateTeacherInput } from '../dto/teacher/update-teacher.input';
 
 @Injectable()
 export class TeachersService {
@@ -28,9 +29,12 @@ export class TeachersService {
     return `This action returns all teachers`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} teacher`;
-  }
+  async findOneByUser(user: User): Promise<Teacher> {
+    //return await this.teachersRepository.findOneByOrFail({ user }); //todo: investigar para control de excepciones centralizado
+    const teacher = await this.teachersRepository.findOneBy({ user });
+    if (!teacher) throw new NotFoundException(`Teacher with userId ${user.id} not found.`);
+    return teacher;
+  } 
 
   update(id: number, updateTeacherInput: UpdateTeacherInput) {
     return `This action updates a #${id} teacher`;

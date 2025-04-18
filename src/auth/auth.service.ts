@@ -10,7 +10,8 @@ import { SignUpStudentInput } from './dto/inputs/sign-up-student.input';
 import { StudentsService } from '../students/students.service';
 import { Role } from './enum/role.enum';
 import { SignUpTeacherInput } from './dto/inputs/sign-up-teacher.input';
-import { TeachersService } from '../teachers/teachers.service';
+import { TeachersService } from '../teachers/services/teachers.service';
+
 
 @Injectable()
 export class AuthService {

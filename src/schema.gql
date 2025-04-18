@@ -16,6 +16,27 @@ enum Role {
   STUDENT
 }
 
+type Classroom {
+  id: ID!
+  code: String!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  teacher: Teacher!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Teacher {
+  id: ID!
+  cellphone: Int!
+  user: User!
+  classrooms: [Classroom!]!
+}
+
 type AuthResponse {
   token: String!
   user: User!
@@ -23,12 +44,14 @@ type AuthResponse {
 
 type Query {
   revalidateToken: AuthResponse!
+  teacher: Teacher!
 }
 
 type Mutation {
   signUpStudent(signUpStudentInput: SignUpStudentInput!): AuthResponse!
   signUpTeacher(signUpTeacherInput: SignUpTeacherInput!): AuthResponse!
   signIn(signInInput: SignInInput!): AuthResponse!
+  createClassroom(createClassroomInput: CreateClassroomInput!): Classroom!
 }
 
 input SignUpStudentInput {
@@ -49,4 +72,9 @@ input SignUpTeacherInput {
 input SignInInput {
   email: String!
   password: String!
+}
+
+input CreateClassroomInput {
+  name: String!
+  description: String
 }

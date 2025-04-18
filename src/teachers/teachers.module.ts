@@ -1,15 +1,24 @@
 import { Module } from '@nestjs/common';
-import { TeachersService } from './teachers.service';
-import { TeachersResolver } from './teachers.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Teacher } from './entities/teacher.entity';
+import { ClassroomsResolver } from './resolvers/classrooms.resolver';
+import { TeachersResolver } from './resolvers/teachers.resolver';
+import { TeachersService } from './services/teachers.service';
+import { ClassroomsService } from './services/classrooms.service';
+import { Classroom } from './entities/classroom.entity';
 
 @Module({
-  providers: [TeachersResolver, TeachersService],
+  providers: [
+    TeachersResolver,
+    TeachersService,
+    ClassroomsResolver,
+    ClassroomsService
+  ],
   imports: [
     TypeOrmModule.forFeature([
-      Teacher
-    ])
+      Teacher,
+      Classroom,
+    ]),
   ],
   exports: [
     TeachersService,

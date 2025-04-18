@@ -1,4 +1,4 @@
-import { createParamDecorator, ExecutionContext, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
+import { createParamDecorator, ExecutionContext, InternalServerErrorException } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { User } from '../../users/entities/user.entity';
 

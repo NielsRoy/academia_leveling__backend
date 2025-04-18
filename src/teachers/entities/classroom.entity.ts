@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Teacher } from '../../teachers/entities/teacher.entity';
 
 @Entity({ name: 'classrooms' })
 @ObjectType()
@@ -29,5 +30,10 @@ export class Classroom {
   @CreateDateColumn()
   @Field(() => Date)
   createdAt: Date;
+
+  @ManyToOne( () => Teacher, (teacher) => teacher.classrooms, { nullable: false, lazy: true } )
+  @Index('teacherId-index')
+  @Field( () => Teacher )
+  teacher: Teacher;
 
 }
