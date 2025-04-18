@@ -21,10 +21,10 @@ export class Course {
   @Field( () => String, { nullable: true } )
   description?: string;
 
-  @OneToMany( () => Subject, (subject) => subject.course )
+  @OneToMany( () => Subject, (subject) => subject.course, { lazy: true } )
   subjects: Subject[];
 
-  @OneToMany( () => Classroom, (classroom) => classroom.course )
+  @OneToMany( () => Classroom, (classroom) => classroom.course, { lazy: true } )
   classrooms: Classroom[];
 
 }

@@ -1,7 +1,8 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Teacher } from '../../teachers/entities/teacher.entity';
 import { Course } from '../../courses/entities/course.entity';
+import { Student } from '../../students/entities/student.entity';
 
 @Entity({ name: 'classrooms' })
 @ObjectType()
@@ -43,5 +44,8 @@ export class Classroom {
   @Index('CLASSROOM_COURSE_ID_INDEX', ['course_id'])
   @Field(() => Course)
   course: Course;
+
+  @OneToMany( () => Student, (student) => student.classroom, { lazy: true } )
+  students: Student[];
 
 }

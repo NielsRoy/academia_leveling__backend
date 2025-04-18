@@ -3,17 +3,16 @@ import { StudentsService } from './students.service';
 import { Student } from './entities/student.entity';
 import { CreateStudentInput } from './dto/create-student.input';
 import { UpdateStudentInput } from './dto/update-student.input';
+import { RequireAuth } from '../auth/decorators/require-auth.decorator';
+import { Role } from '../auth/enum/role.enum';
+import { GetAuthUser } from '../auth/decorators/get-auth-user.decorator';
+import { User } from '../users/entities/user.entity';
+
 
 @Resolver(() => Student)
+@RequireAuth(Role.STUDENT)
 export class StudentsResolver {
   constructor(private readonly studentsService: StudentsService) {}
-
-  // @Mutation(() => Student)
-  // async createStudent(
-  //   @Args('createStudentInput') createStudentInput: CreateStudentInput
-  // ): Promise<Student> {
-  //   return this.studentsService.create(createStudentInput);
-  // }
 
   // @Query(() => [Student], { name: 'students' })
   // findAll() {
@@ -25,10 +24,13 @@ export class StudentsResolver {
   //   return this.studentsService.findOne(id);
   // }
 
-  // @Mutation(() => Student)
-  // updateStudent(@Args('updateStudentInput') updateStudentInput: UpdateStudentInput) {
-  //   return this.studentsService.update(updateStudentInput.id, updateStudentInput);
-  // }
+  @Mutation(() => Student, { description: 'Mediante este mutation el estudiante se puede unir a un classroom' })
+  async updateStudent(
+    @Args('updateStudentInput') updateStudentInput: UpdateStudentInput,
+    @GetAuthUser() user: User,
+  ): Promise<Student> {
+    return this.studentsService.updateByUser(user, updateStudentInput);
+  }
 
   // @Mutation(() => Student)
   // removeStudent(@Args('id', { type: () => Int }) id: number) {

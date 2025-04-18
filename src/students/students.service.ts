@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateStudentInput } from './dto/create-student.input';
 import { UpdateStudentInput } from './dto/update-student.input';
 import { Student } from './entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { User } from '../users/entities/user.entity';
+import { ClassroomsService } from '../teachers/services/classrooms.service';
 
 @Injectable()
 export class StudentsService {
@@ -12,6 +14,8 @@ export class StudentsService {
 
     @InjectRepository(Student)
     private readonly studentsRepository: Repository<Student>,
+
+    private readonly classroomsService: ClassroomsService,
 
   ) {}
 
@@ -27,12 +31,22 @@ export class StudentsService {
     return `This action returns all students`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
-  }
+  async findOneByUser(user: User): Promise<Student> {
+    //return await this.studentsRepository.findOneByOrFail({ user }); //todo: investigar para control de excepciones centralizado
+    const student = await this.studentsRepository.findOneBy({ user });
+    if (!student) throw new NotFoundException(`Student with userId ${user.id} not found.`);
+    return student;
+  } 
 
-  update(id: number, updateStudentInput: UpdateStudentInput) {
-    return `This action updates a #${id} student`;
+  async updateByUser(user: User, updateStudentInput: UpdateStudentInput): Promise<Student> {
+    const student = await this.findOneByUser(user);
+    const { classroomId } = updateStudentInput;
+    if (classroomId) {
+      const classroom = await this.classroomsService.findOne(classroomId);
+      student.classroom = classroom;
+    }
+    student.user = user;
+    return await this.studentsRepository.save(student);
   }
 
   remove(id: number) {

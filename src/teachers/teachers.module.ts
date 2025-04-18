@@ -24,6 +24,7 @@ import { CoursesModule } from '../courses/courses.module';
   ],
   exports: [
     TeachersService,
+    ClassroomsService,
   ]
 })
 export class TeachersModule {}

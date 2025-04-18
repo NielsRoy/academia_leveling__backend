@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Classroom } from '../entities/classroom.entity';
@@ -38,8 +38,10 @@ export class ClassroomsService {
     return this.classroomsRepository.findBy({ teacher });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} classroom`;
+  async findOne(id: number): Promise<Classroom> {
+    const classroom = await this.classroomsRepository.findOneBy({ id });
+    if (!classroom) throw new NotFoundException(`Classroom with id ${id} not found.`);
+    return classroom;
   }
 
   update(id: number, updateClassroomInput: UpdateClassroomInput) {
