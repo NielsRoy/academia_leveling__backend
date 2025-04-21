@@ -54,6 +54,6 @@ export class TeachersResolver {
     // @Args() paginationArgs: PaginationArgs,
     // @Args() searchArgs: SearchArgs,
   ): Promise<Classroom[]> {
-    return this.classroomsService.findAll(teacher);
+    return this.classroomsService.findAllByTeacher(teacher);
   }
 }

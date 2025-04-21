@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';
 import { ClassroomsService } from '../teachers/services/classrooms.service';
+import { Classroom } from '../teachers/entities/classroom.entity';
 
 @Injectable()
 export class StudentsService {
@@ -27,8 +28,8 @@ export class StudentsService {
     return await this.studentsRepository.save(newStudent);
   }
 
-  findAll() {
-    return `This action returns all students`;
+  async findAllByClassroom(classroom: Classroom): Promise<Student[]> {
+    return await this.studentsRepository.findBy({ classroom: { id: classroom.id } });
   }
 
   async findOneByUser(user: User): Promise<Student> {

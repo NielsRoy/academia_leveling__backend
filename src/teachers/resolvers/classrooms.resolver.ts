@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
 import { Classroom } from '../entities/classroom.entity';
 import { RequireAuth } from '../../auth/decorators/require-auth.decorator';
 import { Role } from '../../auth/enum/role.enum';
@@ -6,12 +6,17 @@ import { ClassroomsService } from '../services/classrooms.service';
 import { CreateClassroomInput } from '../dto/classroom/create-classroom.input';
 import { GetAuthUser } from '../../auth/decorators/get-auth-user.decorator';
 import { User } from '../../users/entities/user.entity';
+import { Student } from '../../students/entities/student.entity';
+import { StudentsService } from '../../students/students.service';
 
 
 @Resolver(() => Classroom)
 @RequireAuth(Role.TEACHER)
 export class ClassroomsResolver {
-  constructor(private readonly classroomsService: ClassroomsService) {}
+  constructor(
+    private readonly classroomsService: ClassroomsService,
+    private readonly studentsService: StudentsService,
+  ) {}
 
   @Mutation(() => Classroom)
   async createClassroom(
@@ -26,10 +31,10 @@ export class ClassroomsResolver {
   //   return this.classroomsService.findAll();
   // }
 
-  // @Query(() => Classroom, { name: 'classroom' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.classroomsService.findOne(id);
-  // }
+  @Query(() => Classroom, { name: 'classroom' })
+  findOne(@Args('id', { type: () => Int }) id: number) {
+    return this.classroomsService.findOne(id);
+  }
 
   // @Mutation(() => Classroom)
   // updateClassroom(@Args('updateClassroomInput') updateClassroomInput: UpdateClassroomInput) {
@@ -40,4 +45,14 @@ export class ClassroomsResolver {
   // removeClassroom(@Args('id', { type: () => Int }) id: number) {
   //   return this.classroomsService.remove(id);
   // }
+
+  @ResolveField( () => [Student], { name: 'students' } )
+  async getStudentsByClassroom(
+    @Parent() classroom: Classroom,
+    // @Args() paginationArgs: PaginationArgs,
+    // @Args() searchArgs: SearchArgs,
+  ): Promise<Student[]> {
+    return this.studentsService.findAllByClassroom(classroom);
+  }
+
 }

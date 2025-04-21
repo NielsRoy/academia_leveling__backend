@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { StudentsResolver } from './students.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -11,7 +11,7 @@ import { TeachersModule } from '../teachers/teachers.module';
     TypeOrmModule.forFeature([
       Student,
     ]),
-    TeachersModule
+    forwardRef(() => TeachersModule), //todo: Refactorizar estas dependencias circulares
   ],
   exports: [
     StudentsService,

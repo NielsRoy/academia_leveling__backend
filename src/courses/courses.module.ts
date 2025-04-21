@@ -3,6 +3,7 @@ import { CoursesService } from './courses.service';
 import { CoursesResolver } from './courses.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Course } from './entities/course.entity';
+import { SubjectsModule } from '../subjects/subjects.module';
 
 @Module({
   providers: [CoursesResolver, CoursesService],
@@ -10,6 +11,7 @@ import { Course } from './entities/course.entity';
     TypeOrmModule.forFeature([
       Course,
     ]),
+    SubjectsModule,
   ],
   exports: [
     TypeOrmModule,

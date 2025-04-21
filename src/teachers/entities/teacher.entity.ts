@@ -8,14 +8,14 @@ import { Classroom } from './classroom.entity';
 export class Teacher {
 
   @PrimaryGeneratedColumn()
-  @Field( () => ID )  //todo: verificar si esto regresa el id como string y cambiar ID por Int
+  @Field( () => Int )  //todo: Cambiar por Int las llaves primarias que tienen ID
   id: number;
 
   @Column()
   @Field( () => Int )
   cellphone: number;
 
-  @OneToOne( () => User, { eager: true })
+  @OneToOne( () => User, { lazy: true })
   @JoinColumn({ name: 'user_id' })
   @Field( () => User )
   user: User;

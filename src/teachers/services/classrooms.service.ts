@@ -34,8 +34,8 @@ export class ClassroomsService {
     return await this.classroomsRepository.save(newClassroom);
   }
 
-  async findAll(teacher: Teacher): Promise<Classroom[]> {
-    return this.classroomsRepository.findBy({ teacher });
+  async findAllByTeacher(teacher: Teacher): Promise<Classroom[]> {
+    return await this.classroomsRepository.findBy({ teacher });
   }
 
   async findOne(id: number): Promise<Classroom> {

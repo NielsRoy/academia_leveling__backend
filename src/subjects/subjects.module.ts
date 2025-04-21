@@ -13,6 +13,7 @@ import { Subject } from './entities/subject.entity';
   ],
   exports: [
     TypeOrmModule,
+    SubjectsService,
   ]
 })
 export class SubjectsModule {}

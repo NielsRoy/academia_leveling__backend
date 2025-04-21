@@ -8,7 +8,7 @@ import { Classroom } from '../../teachers/entities/classroom.entity';
 export class Student {
   
   @PrimaryGeneratedColumn()
-  @Field( () => ID )
+  @Field( () => Int )
   id: number;
 
   @Column({
@@ -23,7 +23,7 @@ export class Student {
   @Field( () => Int )
   xp: number;
 
-  @OneToOne( () => User )
+  @OneToOne( () => User, { lazy: true } )
   @JoinColumn({ name: 'user_id' })
   @Field( () => User )
   user: User;
