@@ -6,7 +6,12 @@ import { JwtService } from '@nestjs/jwt';
 import { SignInInput } from './dto/inputs/sign-in.input';
 import { HASH_ADAPTER } from '../common/adapters/constants';
 import { HashAdapter } from '../common/adapters/hash/hash.adapter';
-import { SignUpInput } from './dto/inputs/sign-up.input';
+import { SignUpStudentInput } from './dto/inputs/sign-up-student.input';
+import { StudentsService } from '../students/students.service';
+import { Role } from './enum/role.enum';
+import { SignUpTeacherInput } from './dto/inputs/sign-up-teacher.input';
+import { TeachersService } from '../teachers/services/teachers.service';
+
 
 @Injectable()
 export class AuthService {
@@ -14,6 +19,9 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+
+    private readonly studentsService: StudentsService,
+    private readonly teachersService: TeachersService,
 
     @Inject(HASH_ADAPTER)
     private readonly hashAdapter: HashAdapter,
@@ -24,8 +32,24 @@ export class AuthService {
     return this.jwtService.sign({ id: userId });
   }
 
-  async signUp(signUpInput: SignUpInput): Promise<AuthResponse> {
-    const user = await this.usersService.create(signUpInput);
+  async signUpStudent(signUpStudentInput: SignUpStudentInput): Promise<AuthResponse> {
+    const user = await this.usersService.create({ 
+      ...signUpStudentInput,
+      role: Role.STUDENT,
+    });
+    await this.studentsService.create({ userId: user.id });
+    const token = this.getJwtToken(user.id);
+    return { token, user };
+  }
+
+  async signUpTeacher(signUpTeacherInput: SignUpTeacherInput): Promise<AuthResponse> {
+    
+    const { cellphone, ...rest } = signUpTeacherInput;
+    const user = await this.usersService.create({
+      ...rest,
+      role: Role.TEACHER,
+    });
+    await this.teachersService.create({ userId: user.id, cellphone });
     const token = this.getJwtToken(user.id);
     return { token, user };
   }

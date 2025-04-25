@@ -16,6 +16,52 @@ enum Role {
   STUDENT
 }
 
+type Teacher {
+  id: Int!
+  cellphone: Int!
+  user: User!
+  classrooms: [Classroom!]!
+}
+
+type Subject {
+  id: Int!
+  code: String!
+  name: String!
+  description: String
+  course: Course!
+}
+
+type Course {
+  id: Int!
+  title: String!
+  description: String
+  subjects: [Subject!]!
+}
+
+type Classroom {
+  id: Int!
+  code: String!
+  name: String!
+  description: String
+  createdAt: DateTime!
+  teacher: Teacher!
+  course: Course!
+  students: [Student!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Student {
+  id: Int!
+  level: Int!
+  xp: Int!
+  user: User!
+  classroom: Classroom
+}
+
 type AuthResponse {
   token: String!
   user: User!
@@ -23,22 +69,54 @@ type AuthResponse {
 
 type Query {
   revalidateToken: AuthResponse!
+  teacher: Teacher!
+  classroom(id: Int!): Classroom!
+  course(id: Int!): Course!
 }
 
 type Mutation {
-  signUp(signUpInput: SignUpInput!): AuthResponse!
+  signUpStudent(signUpStudentInput: SignUpStudentInput!): AuthResponse!
+  signUpTeacher(signUpTeacherInput: SignUpTeacherInput!): AuthResponse!
   signIn(signInInput: SignInInput!): AuthResponse!
+
+  """Mediante este mutation el estudiante se puede unir a un classroom"""
+  updateStudent(updateStudentInput: UpdateStudentInput!): Student!
+  createClassroom(createClassroomInput: CreateClassroomInput!): Classroom!
+
+  """Ejecuta la población de la base de datos"""
+  executeSeed: Boolean!
 }
 
-input SignUpInput {
+input SignUpStudentInput {
   email: String!
   password: String!
   firstName: String!
   lastName: String!
-  role: Role!
+}
+
+input SignUpTeacherInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  cellphone: Int!
 }
 
 input SignInInput {
   email: String!
   password: String!
+}
+
+input UpdateStudentInput {
+  email: String
+  password: String
+  firstName: String
+  lastName: String
+  classroomId: Int
+}
+
+input CreateClassroomInput {
+  name: String!
+  description: String
+  courseId: Int!
 }

@@ -8,6 +8,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
+import { TeachersModule } from './teachers/teachers.module';
+import { StudentsModule } from './students/students.module';
+import { CoursesModule } from './courses/courses.module';
+import { SubjectsModule } from './subjects/subjects.module';
+import { AchievementsModule } from './achievements/achievements.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -28,10 +34,17 @@ import { CommonModule } from './common/common.module';
       database: process.env.DB_NAME,
       synchronize: true,  //! Esto en produccion deberia ser false
       autoLoadEntities: true,
+      //namingStrategy: new SnakeNamingStrategy(), //? para que las columnas se nombren con snake_case //? Instalando npm install typeorm-naming-strategies      
     }),
     AuthModule,
     UsersModule,
     CommonModule,
+    TeachersModule,
+    StudentsModule,
+    CoursesModule,
+    SubjectsModule,
+    AchievementsModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],

@@ -1,0 +1,54 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Classroom } from '../entities/classroom.entity';
+import { CreateClassroomInput } from '../dto/classroom/create-classroom.input';
+import { Teacher } from '../entities/teacher.entity';
+import { UpdateClassroomInput } from '../dto/classroom/update-classroom.input';
+import { User } from '../../users/entities/user.entity';
+import { TeachersService } from './teachers.service';
+import { CoursesService } from '../../courses/courses.service';
+
+@Injectable()
+export class ClassroomsService {
+
+  constructor(
+
+    @InjectRepository(Classroom)
+    private readonly classroomsRepository: Repository<Classroom>,
+
+    private readonly teachersService: TeachersService,
+    private readonly coursesService :CoursesService,
+
+  ) {}
+
+  async create(createClassroomInput: CreateClassroomInput, user: User): Promise<Classroom> {
+    const { courseId, ...rest } = createClassroomInput;
+    const teacher = await this.teachersService.findOneByUser(user);
+    const course = await this.coursesService.findOne(courseId);
+    const newClassroom = this.classroomsRepository.create({
+      ...rest,
+      teacher,
+      course,
+    });
+    return await this.classroomsRepository.save(newClassroom);
+  }
+
+  async findAllByTeacher(teacher: Teacher): Promise<Classroom[]> {
+    return await this.classroomsRepository.findBy({ teacher });
+  }
+
+  async findOne(id: number): Promise<Classroom> {
+    const classroom = await this.classroomsRepository.findOneBy({ id });
+    if (!classroom) throw new NotFoundException(`Classroom with id ${id} not found.`);
+    return classroom;
+  }
+
+  update(id: number, updateClassroomInput: UpdateClassroomInput) {
+    return `This action updates a #${id} classroom`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} classroom`;
+  }
+}

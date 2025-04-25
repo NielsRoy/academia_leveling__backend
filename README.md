@@ -14,7 +14,7 @@
 
 ## Installation
 
-1. Copy the ```.env.template``` file and rename it to ```.env```
+1. Copy the ```.env.example``` file and rename it to ```.env```
 
 2. Install dependencies:
 ```

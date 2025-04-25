@@ -7,6 +7,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from '../users/users.module';
 import { CommonModule } from '../common/common.module';
+import { StudentsModule } from '../students/students.module';
+import { TeachersModule } from '../teachers/teachers.module';
 
 @Module({
   providers: [AuthResolver, AuthService, JwtStrategy ],
@@ -29,7 +31,8 @@ import { CommonModule } from '../common/common.module';
     }),
 
     UsersModule,
-
+    StudentsModule,
+    TeachersModule,
     CommonModule,
   ]
 })

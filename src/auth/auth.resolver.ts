@@ -5,8 +5,8 @@ import { RequireAuth } from './decorators/require-auth.decorator';
 import { User } from '../users/entities/user.entity';
 import { GetAuthUser } from './decorators/get-auth-user.decorator';
 import { SignInInput } from './dto/inputs/sign-in.input';
-import { SignUpInput } from './dto/inputs/sign-up.input';
-
+import { SignUpStudentInput } from './dto/inputs/sign-up-student.input';
+import { SignUpTeacherInput } from './dto/inputs/sign-up-teacher.input';
 
 @Resolver()
 export class AuthResolver {
@@ -15,11 +15,18 @@ export class AuthResolver {
     private readonly authService: AuthService,
   ) {}
 
-  @Mutation( () => AuthResponse, { name: 'signUp' })
+  @Mutation( () => AuthResponse, { name: 'signUpStudent' })
   async signUpStudent(
-    @Args('signUpInput') signUpInput: SignUpInput
+    @Args('signUpStudentInput') signUpStudentInput: SignUpStudentInput
   ): Promise<AuthResponse> {
-    return this.authService.signUp(signUpInput);
+    return this.authService.signUpStudent(signUpStudentInput);
+  }
+
+  @Mutation( () => AuthResponse, { name: 'signUpTeacher' })
+  async signUpTeacher(
+    @Args('signUpTeacherInput') signUpTeacherInput: SignUpTeacherInput
+  ): Promise<AuthResponse> {
+    return this.authService.signUpTeacher(signUpTeacherInput);
   }
 
   @Mutation( () => AuthResponse, { name: 'signIn' } )
