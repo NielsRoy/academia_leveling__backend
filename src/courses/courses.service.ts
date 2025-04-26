@@ -19,8 +19,8 @@ export class CoursesService {
     return 'This action adds a new course';
   }
 
-  findAll() {
-    return `This action returns all courses`;
+  async findAll(): Promise<Course[]> {
+    return await this.coursesRepository.find({});
   }
 
   async findOne(id: number): Promise<Course> {
