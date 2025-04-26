@@ -7,6 +7,7 @@ import { RequireAuth } from '../auth/decorators/require-auth.decorator';
 import { Role } from '../auth/enum/role.enum';
 import { GetAuthUser } from '../auth/decorators/get-auth-user.decorator';
 import { User } from '../users/entities/user.entity';
+import { ParseIntPipe } from '@nestjs/common';
 
 
 @Resolver(() => Student)
@@ -19,10 +20,12 @@ export class StudentsResolver {
   //   return this.studentsService.findAll();
   // }
 
-  // @Query(() => Student, { name: 'student' })
-  // findOne(@Args('id', { type: () => Int }) id: number) {
-  //   return this.studentsService.findOne(id);
-  // }
+  @Query(() => Student, { name: 'student' })
+  async findOne(
+    @GetAuthUser() user: User,
+  ): Promise<Student> {
+    return this.studentsService.findOneByUser(user);
+  }
 
   @Mutation(() => Student, { description: 'Mediante este mutation el estudiante se puede unir a un classroom' })
   async updateStudent(
