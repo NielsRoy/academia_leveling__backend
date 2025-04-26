@@ -69,6 +69,7 @@ type AuthResponse {
 
 type Query {
   revalidateToken: AuthResponse!
+  student: Student!
   teacher: Teacher!
   classroom(id: Int!): Classroom!
   courses: [Course!]!
