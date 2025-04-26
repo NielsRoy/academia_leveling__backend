@@ -7,6 +7,7 @@ import { Subject } from '../subjects/entities/subject.entity';
 import { SubjectsService } from '../subjects/subjects.service';
 import { RequireAuth } from '../auth/decorators/require-auth.decorator';
 import { ParseIntPipe } from '@nestjs/common';
+import { Role } from '../auth/enum/role.enum';
 
 @Resolver(() => Course)
 @RequireAuth()
@@ -21,10 +22,11 @@ export class CoursesResolver {
   //   return this.coursesService.create(createCourseInput);
   // }
 
-  // @Query(() => [Course], { name: 'courses' })
-  // findAll() {
-  //   return this.coursesService.findAll();
-  // }
+  @RequireAuth(Role.TEACHER)
+  @Query(() => [Course], { name: 'courses' })
+  async findAll(): Promise<Course[]> {
+    return this.coursesService.findAll();
+  }
 
   @Query(() => Course, { name: 'course' })
   async findOne(
