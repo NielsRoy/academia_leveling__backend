@@ -27,9 +27,9 @@ import { SeedModule } from './seed/seed.module';
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     TypeOrmModule.forRoot({
-      ssl: process.env.STAGE === 'prod',  //? Esta linea y la de abajo son para despliegue
+      ssl: process.env.STATE === 'prod',  //? Esta linea y la de abajo son para despliegue
       extra: {
-        ssl: process.env.STAGE === 'prod'
+        ssl: process.env.STATE === 'prod'
           ? { rejectUnauthorized: false }
           : null,
       },
