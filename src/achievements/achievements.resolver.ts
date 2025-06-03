@@ -13,10 +13,10 @@ export class AchievementsResolver {
   //   return this.achievementsService.create(createAchievementInput);
   // }
 
-  // @Query(() => [Achievement], { name: 'achievements' })
-  // findAll() {
-  //   return this.achievementsService.findAll();
-  // }
+  @Query(() => [Achievement], { name: 'achievements' })
+  findAll() {
+    return this.achievementsService.findAll();
+  }
 
   // @Query(() => Achievement, { name: 'achievement' })
   // findOne(@Args('id', { type: () => Int }) id: number) {

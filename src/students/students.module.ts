@@ -4,6 +4,7 @@ import { StudentsResolver } from './students.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Student } from './entities/student.entity';
 import { TeachersModule } from '../teachers/teachers.module';
+import { StudentAchievModule } from '../student_achiev/student_achiev.module';
 
 @Module({
   providers: [StudentsResolver, StudentsService],
@@ -11,7 +12,8 @@ import { TeachersModule } from '../teachers/teachers.module';
     TypeOrmModule.forFeature([
       Student,
     ]),
-    forwardRef(() => TeachersModule), //todo: Refactorizar estas dependencias circulares
+    forwardRef(() => TeachersModule), //todo: Refactorizar estas dependencias circulares,
+    StudentAchievModule
   ],
   exports: [
     StudentsService,

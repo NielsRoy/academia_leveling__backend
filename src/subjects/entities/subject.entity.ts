@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Course } from '../../courses/entities/course.entity';
+import { Topic } from './topic.entity';
 
 @Entity({ name: 'subjects' })
 @ObjectType()
@@ -30,4 +31,6 @@ export class Subject {
   @Field( () => Course )
   course: Course;
 
+  @OneToMany(() => Topic, (topic) => topic.subject, { lazy: true } )
+  topics: Topic[];
 }

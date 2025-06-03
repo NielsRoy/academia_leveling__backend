@@ -1,15 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAchievementInput } from './dto/create-achievement.input';
 import { UpdateAchievementInput } from './dto/update-achievement.input';
+import { Repository } from 'typeorm';
+import { Achievement } from './entities/achievement.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AchievementsService {
+
+  constructor(
+    @InjectRepository(Achievement)
+    private readonly achievmentRepository: Repository<Achievement>
+  ) {}
+
   create(createAchievementInput: CreateAchievementInput) {
     return 'This action adds a new achievement';
   }
 
-  findAll() {
-    return `This action returns all achievements`;
+  async findAll(): Promise<Achievement[]> {
+    return await this.achievmentRepository.find();
   }
 
   findOne(id: number) {
