@@ -4,6 +4,7 @@ import { Subject } from '../subjects/entities/subject.entity';
 import { Repository } from 'typeorm';
 import { Course } from '../courses/entities/course.entity';
 import { SEED_SUBJECTS_5, SEED_SUBJECTS_6 } from './data/seed-data';
+import { SeedLessonsService } from './seed-lessons.service';
 
 @Injectable()
 export class SeedService {
@@ -16,10 +17,15 @@ export class SeedService {
     @InjectRepository(Course)
     private readonly coursesRepository: Repository<Course>,
 
+    private readonly seedLessonsService: SeedLessonsService,
+
   ) {}
 
   async executeSeed(): Promise<boolean> {
 
+
+    await this.seedLessonsService.runSeed();
+    
     await this.deleteData();
 
     await this.loadCourses();
