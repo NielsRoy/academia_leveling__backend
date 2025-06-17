@@ -6,9 +6,9 @@ import { Classroom } from './classroom.entity';
 @Entity({ name: 'teachers' })
 @ObjectType()
 export class Teacher {
-
+  
   @PrimaryGeneratedColumn()
-  @Field( () => Int )  //todo: Cambiar por Int las llaves primarias que tienen ID
+  @Field( () => Int )
   id: number;
 
   @Column()

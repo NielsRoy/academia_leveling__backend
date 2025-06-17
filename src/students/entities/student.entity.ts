@@ -7,7 +7,7 @@ import { StudentAchiev } from 'src/student_achiev/entities/student_achiev.entity
 @Entity({ name: 'students' })
 @ObjectType()
 export class Student {
-  
+
   @PrimaryGeneratedColumn()
   @Field( () => Int )
   id: number;
@@ -34,8 +34,7 @@ export class Student {
   @Index('STUDENT_CLASSROOM_ID_INDEX', ['classroom_id'])
   @Field( () => Classroom, { nullable: true } )
   classroom?: Classroom;
-
+  
   @OneToMany(() => StudentAchiev, studentAchiev => studentAchiev.student)
   studentAchiev: StudentAchiev[];
-
 }

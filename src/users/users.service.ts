@@ -1,11 +1,12 @@
-import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UpdateUserInput } from './dto/update-user.input';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityNotFoundError, Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { HASH_ADAPTER } from '../common/adapters/constants';
 import { HashAdapter } from '../common/adapters/hash/hash.adapter';
 import { CreateUserInput } from './dto/create-user.input';
+import { ErrorHandlerUtil } from '../common/utils/error-handler.util';
 
 @Injectable()
 export class UsersService {
@@ -22,19 +23,19 @@ export class UsersService {
 
   ) {}
 
-  async create(createUserInput: CreateUserInput): Promise<User> {
+  async create(createUserInput: CreateUserInput, queryRunner: QueryRunner): Promise<User> {
     try {
+      const { password, firstName, lastName, ...rest } = createUserInput;
       const newUser = this.usersRepository.create({
-        ...createUserInput,
+        ...rest,
         password: this.hashAdapter.hash(createUserInput.password),
-        firstName: createUserInput.firstName.toLowerCase(),
-        lastName: createUserInput.lastName.toLowerCase(),
+        firstName: firstName.toLowerCase().trim(),
+        lastName: lastName.toLowerCase().trim(),
       });
-      return await this.usersRepository.save(newUser);
+      return queryRunner.manager.save(newUser);
     } catch (error) {
-      this.handleDBErrors(error);
+      ErrorHandlerUtil.handle(error, this.logger);
     }
-
   }
 
 
@@ -42,15 +43,11 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
   async findOneById(id: number): Promise<User> {
     try {
       return await this.usersRepository.findOneByOrFail({ id });
     } catch (error) {
-      this.handleDBErrors(error);
+      ErrorHandlerUtil.handle(error, this.logger);
     }
   }
 
@@ -58,28 +55,23 @@ export class UsersService {
     try {
       return await this.usersRepository.findOneByOrFail({ email });
     } catch (error) {
-      this.handleDBErrors(error);
+      ErrorHandlerUtil.handle(error, this.logger);
     }
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserInput: UpdateUserInput, queryRunner: QueryRunner): Promise<User> {
+    try {
+      const { password } = updateUserInput;
+      if (password) updateUserInput.password = this.hashAdapter.hash(password);
+      await this.usersRepository.createQueryBuilder().setQueryRunner(queryRunner)
+        .update().set(updateUserInput).where('id = :id', { id }).execute();
+      return await this.findOneById(id);
+    } catch(error) {
+      ErrorHandlerUtil.handle(error, this.logger);
+    }
   }
 
   remove(id: number) {
     return `This action removes a #${id} user`;
-  }
-
-  private handleDBErrors(error: any): never {
-    if (error.code === '23505') {
-      throw new BadRequestException(error.detail.replace('Key ',''));
-    }
-
-    if (error instanceof EntityNotFoundError) {
-      throw new NotFoundException(error.message);
-    }
-
-    this.logger.error(error);
-    throw new InternalServerErrorException(`Check server logs`);
   }
 }

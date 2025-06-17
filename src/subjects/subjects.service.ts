@@ -22,7 +22,7 @@ export class SubjectsService {
   }
 
   async findAllByCourse(course: Course): Promise<Subject[]> {
-    return await this.subjectsRepository.findBy({ course });
+    return await this.subjectsRepository.findBy({ course: { id: course.id } });
   }
 
   findOne(id: number) {

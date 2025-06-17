@@ -1,12 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateCourseInput } from './dto/create-course.input';
 import { UpdateCourseInput } from './dto/update-course.input';
 import { Course } from './entities/course.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ErrorHandlerUtil } from '../common/utils/error-handler.util';
 
 @Injectable()
 export class CoursesService {
+
+  private logger = new Logger('CoursesService');
 
   constructor(
 
@@ -24,9 +27,11 @@ export class CoursesService {
   }
 
   async findOne(id: number): Promise<Course> {
-    const course = await this.coursesRepository.findOneBy({ id });
-    if (!course) throw new NotFoundException(`Course with id ${id} not found`);
-    return course;
+    try {
+      return await this.coursesRepository.findOneByOrFail({ id });
+    } catch (error) {
+      ErrorHandlerUtil.handle(error, this.logger);
+    }
   }
 
   update(id: number, updateCourseInput: UpdateCourseInput) {

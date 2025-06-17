@@ -8,6 +8,7 @@ import { GetAuthUser } from '../../auth/decorators/get-auth-user.decorator';
 import { User } from '../../users/entities/user.entity';
 import { Student } from '../../students/entities/student.entity';
 import { StudentsService } from '../../students/students.service';
+import { ModuleRef } from '@nestjs/core';
 
 
 @Resolver(() => Classroom)
@@ -15,7 +16,8 @@ import { StudentsService } from '../../students/students.service';
 export class ClassroomsResolver {
   constructor(
     private readonly classroomsService: ClassroomsService,
-    private readonly studentsService: StudentsService,
+    //private readonly studentsService: StudentsService,
+    private readonly moduleRef: ModuleRef,
   ) {}
 
   @Mutation(() => Classroom)
@@ -52,7 +54,8 @@ export class ClassroomsResolver {
     // @Args() paginationArgs: PaginationArgs,
     // @Args() searchArgs: SearchArgs,
   ): Promise<Student[]> {
-    return this.studentsService.findAllByClassroom(classroom);
+    const studentsService = this.moduleRef.get(StudentsService, { strict: false });
+    return await studentsService.findAllByClassroom(classroom);
   }
 
 }

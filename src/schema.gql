@@ -114,6 +114,8 @@ input UpdateStudentInput {
   password: String
   firstName: String
   lastName: String
+  level: Int
+  xp: Int
   classroomId: Int
 }
 

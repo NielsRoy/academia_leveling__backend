@@ -9,8 +9,8 @@ export class CreateTeacherInput {
   @Min(999999)
   cellphone: number;
 
-  @Field(() => Int)
-  @IsPositive()
-  userId: number;
+  // @Field(() => Int)
+  // @IsPositive()
+  // userId: number;
 
 }

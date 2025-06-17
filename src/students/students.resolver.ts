@@ -37,7 +37,7 @@ export class StudentsResolver {
     @Args('updateStudentInput') updateStudentInput: UpdateStudentInput,
     @GetAuthUser() user: User,
   ): Promise<Student> {
-    return this.studentsService.updateByUser(user, updateStudentInput);
+    return await this.studentsService.updateByUser(user, updateStudentInput);
   }
 
   // @Mutation(() => Student)

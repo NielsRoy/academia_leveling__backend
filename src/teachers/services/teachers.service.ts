@@ -1,13 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Injectable, Logger } from '@nestjs/common';
+import { QueryRunner, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Teacher } from '../entities/teacher.entity';
 import { CreateTeacherInput } from '../dto/teacher/create-teacher.input';
 import { User } from '../../users/entities/user.entity';
 import { UpdateTeacherInput } from '../dto/teacher/update-teacher.input';
+import { ErrorHandlerUtil } from '../../common/utils/error-handler.util';
 
 @Injectable()
 export class TeachersService {
+
+  private logger = new Logger('TeachersService');
 
   constructor(
 
@@ -16,13 +19,9 @@ export class TeachersService {
   
   ) {}
 
-  async create(createTeacherInput: CreateTeacherInput): Promise<Teacher> {
-    const { userId, ...rest } = createTeacherInput;
-    const newTeacher = this.teachersRepository.create({
-      user: { id: userId },
-      ...rest,
-    });
-    return await this.teachersRepository.save(newTeacher);
+  async create(user: User, createTeacherInput: CreateTeacherInput, queryRunner: QueryRunner): Promise<Teacher> {
+    const newTeacher = this.teachersRepository.create({ ...createTeacherInput, user }); 
+    return await queryRunner.manager.save(newTeacher);
   }
 
   findAll() {
@@ -30,10 +29,11 @@ export class TeachersService {
   }
 
   async findOneByUser(user: User): Promise<Teacher> {
-    //return await this.teachersRepository.findOneByOrFail({ user }); //todo: investigar para control de excepciones centralizado
-    const teacher = await this.teachersRepository.findOneBy({ user });
-    if (!teacher) throw new NotFoundException(`Teacher with userId ${user.id} not found.`);
-    return teacher;
+    try {
+      return await this.teachersRepository.findOneByOrFail({ user: { id: user.id } });
+    } catch(error) {
+      ErrorHandlerUtil.handle(error, this.logger);
+    }
   } 
 
   update(id: number, updateTeacherInput: UpdateTeacherInput) {

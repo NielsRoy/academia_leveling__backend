@@ -47,5 +47,4 @@ export class Classroom {
 
   @OneToMany( () => Student, (student) => student.classroom, { lazy: true } )
   students: Student[];
-
 }

@@ -22,7 +22,7 @@ import { StudentsModule } from '../students/students.module';
       Classroom,
     ]),
     CoursesModule,
-    forwardRef( () => StudentsModule ), //todo: Refactorizar estas dependencias circulares
+    //forwardRef( () => StudentsModule ), //todo: Refactorizar estas dependencias circulares
   ],
   exports: [
     TeachersService,
