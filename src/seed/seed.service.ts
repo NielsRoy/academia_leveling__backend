@@ -1,20 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Subject } from '../courses/entities/subject.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Course } from '../courses/entities/course.entity';
-import { SEED_COURSES, SEED_EXERCISES, SEED_EXERCISES_OPTIONS, SEED_LESSONS, SEED_SUBJECTS, SEED_TOPICS } from './data/seed-data';
+import { SEED_CLASSROOMS, SEED_COURSES, SEED_EXERCISES, SEED_EXERCISES_OPTIONS, SEED_LESSONS, SEED_STUDENTS, SEED_SUBJECTS, SEED_TEACHERS, SEED_TOPICS, SEED_USERS } from './data/seed-data';
 import { Topic } from '../courses/entities/topic.entity';
 import { Classroom } from '../teachers/entities/classroom.entity';
 import { Student } from '../students/entities/student.entity';
 import { Lesson } from '../courses/entities/lesson.entity';
 import { Exercise } from '../courses/entities/exercise.entity';
 import { ExOption } from '../courses/entities/ex_option.entity';
+import { User } from '../users/entities/user.entity';
+import { Teacher } from '../teachers/entities/teacher.entity';
 
 @Injectable()
 export class SeedService {
 
   constructor(
+
+    @InjectRepository(ExOption)
+    private readonly exOptionsRepository: Repository<ExOption>,
+
+    @InjectRepository(Exercise)
+    private readonly exercisesRepository: Repository<Exercise>,
+
+    @InjectRepository(Lesson)
+    private readonly lessonsRepository: Repository<Lesson>,
 
     @InjectRepository(Topic)
     private readonly topicsRepository: Repository<Topic>,
@@ -28,17 +39,16 @@ export class SeedService {
     @InjectRepository(Course)
     private readonly coursesRepository: Repository<Course>,
 
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+
     @InjectRepository(Student)
     private readonly studentsRepository: Repository<Student>,
 
-    @InjectRepository(Lesson)
-    private readonly lessonsRepository: Repository<Lesson>,
+    @InjectRepository(Teacher)
+    private readonly teachersRepository: Repository<Teacher>,
 
-    @InjectRepository(Exercise)
-    private readonly exercisesRepository: Repository<Exercise>,
-
-    @InjectRepository(ExOption)
-    private readonly exOptionsRepository: Repository<ExOption>,
+    private readonly dataSource: DataSource,
 
   ) {}
 
@@ -58,6 +68,14 @@ export class SeedService {
 
     await this.loadExercisesOptions();
 
+    await this.loadUsers();
+
+    await this.loadStudents();
+
+    await this.loadTeachers();
+
+    await this.loadClassrooms();
+
     return true;
   }
 
@@ -75,6 +93,9 @@ export class SeedService {
       .delete().where({}).execute();
 
     await this.subjectsRepository.createQueryBuilder()
+      .delete().where({}).execute();
+
+    await this.usersRepository.createQueryBuilder()
       .delete().where({}).execute();
 
     await this.studentsRepository.createQueryBuilder()
@@ -117,4 +138,29 @@ export class SeedService {
       .values(SEED_EXERCISES_OPTIONS).execute();
   } 
 
+  async loadUsers() {
+    const insertQuery = `
+      INSERT INTO users (id, first_name, last_name, email, password, role)
+      VALUES ${SEED_USERS.map(user => 
+        `(${user.id}, '${user.firstName}', '${user.lastName}', '${user.email}', '${user.password}', '${user.role}')`
+      ).join(', ')}
+    `;
+
+    await this.dataSource.query(insertQuery);
+  }
+
+  async loadStudents() {
+    await this.studentsRepository.createQueryBuilder().insert()
+      .values(SEED_STUDENTS).execute();
+  }
+
+  async loadTeachers() {
+    await this.teachersRepository.createQueryBuilder().insert()
+      .values(SEED_TEACHERS).execute();
+  }
+
+  async loadClassrooms() {
+    await this.classroomsRepository.createQueryBuilder().insert()
+      .values(SEED_CLASSROOMS).execute();
+  }
 }

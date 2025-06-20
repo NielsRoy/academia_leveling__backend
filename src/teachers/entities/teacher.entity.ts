@@ -1,5 +1,5 @@
-import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Classroom } from './classroom.entity';
 
@@ -7,7 +7,7 @@ import { Classroom } from './classroom.entity';
 @ObjectType()
 export class Teacher {
   
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   @Field( () => Int )
   id: number;
 
@@ -15,7 +15,7 @@ export class Teacher {
   @Field( () => Int )
   cellphone: number;
 
-  @OneToOne( () => User, { lazy: true })
+  @OneToOne( () => User, { lazy: true, onDelete: 'CASCADE' } )
   @JoinColumn({ name: 'user_id' })
   @Field( () => User )
   user: User;

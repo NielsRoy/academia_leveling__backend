@@ -7,7 +7,7 @@ import { CommonModule } from '../common/common.module';
 
 @Module({
   providers: [UsersResolver, UsersService],
-  exports: [ UsersService ],
+  exports: [ UsersService, TypeOrmModule, ],
   imports: [
     TypeOrmModule.forFeature([
       User

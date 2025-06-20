@@ -20,7 +20,7 @@ export class TeachersService {
   ) {}
 
   async create(user: User, createTeacherInput: CreateTeacherInput, queryRunner: QueryRunner): Promise<Teacher> {
-    const newTeacher = this.teachersRepository.create({ ...createTeacherInput, user }); 
+    const newTeacher = this.teachersRepository.create({ id: user.id, ...createTeacherInput, user }); 
     return await queryRunner.manager.save(newTeacher);
   }
 
