@@ -62,6 +62,8 @@ export class SeedService {
   }
 
   async deleteData(): Promise<void> {
+    await this.exOptionsRepository.createQueryBuilder()
+      .delete().where({}).execute();
 
     await this.exercisesRepository.createQueryBuilder()
       .delete().where({}).execute();

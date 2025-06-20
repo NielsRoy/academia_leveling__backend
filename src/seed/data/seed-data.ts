@@ -172,8 +172,20 @@ export const SEED_LESSONS = [
     id: 1,
     title: '¿Qué son los números enteros?',
     content: "Los números enteros son un conjunto numérico que incluye los números negativos, el cero y los números positivos. Se representan con la letra 'Z' y no tienen parte decimal ni fraccionaria. Por ejemplo: ..., -3, -2, -1, 0, 1, 2, 3, ...",
-    topic: { id: 1 }
-  }, 
+    topic: { id: 1 },
+  },
+  {
+    id: 2,
+    title: "La recta numérica",
+    content: "Aprende a ubicar números enteros en la recta numérica.",
+    topic: { id: 1 },
+  },
+  {
+    id: 3,
+    title: "Aplicaciones prácticas",
+    content: "Descubre cómo usar los números enteros en la vida real.",
+    topic: { id: 1 },
+  }
 ]
 
 export const SEED_EXERCISES = [
