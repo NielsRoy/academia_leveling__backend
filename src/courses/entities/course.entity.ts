@@ -1,13 +1,13 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Subject } from '../../subjects/entities/subject.entity';
+import { Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Subject } from './subject.entity';
 import { Classroom } from '../../teachers/entities/classroom.entity';
 
 @Entity({ name: 'courses' })
 @ObjectType()
 export class Course {
   
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   @Field( () => Int )
   id: number;
 
@@ -22,6 +22,7 @@ export class Course {
   description?: string;
 
   @OneToMany( () => Subject, (subject) => subject.course, { lazy: true } )
+  @Field(() => [Subject])
   subjects: Subject[];
 
   @OneToMany( () => Classroom, (classroom) => classroom.course, { lazy: true } )

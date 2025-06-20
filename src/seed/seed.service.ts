@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Subject } from '../subjects/entities/subject.entity';
+import { Subject } from '../courses/entities/subject.entity';
 import { Repository } from 'typeorm';
 import { Course } from '../courses/entities/course.entity';
-import { SEED_MATH600_TOPICS, SEED_SUBJECTS_5, SEED_SUBJECTS_6 } from './data/seed-data';
-import { Topic } from '../subjects/entities/topic.entity';
+import { SEED_COURSES, SEED_EXERCISES, SEED_EXERCISES_OPTIONS, SEED_LESSONS, SEED_SUBJECTS, SEED_TOPICS } from './data/seed-data';
+import { Topic } from '../courses/entities/topic.entity';
+import { Classroom } from '../teachers/entities/classroom.entity';
+import { Student } from '../students/entities/student.entity';
+import { Lesson } from '../courses/entities/lesson.entity';
+import { Exercise } from '../courses/entities/exercise.entity';
+import { ExOption } from '../courses/entities/ex_option.entity';
 
 @Injectable()
 export class SeedService {
@@ -17,8 +22,23 @@ export class SeedService {
     @InjectRepository(Subject)
     private readonly subjectsRepository: Repository<Subject>,
 
+    @InjectRepository(Classroom)
+    private readonly classroomsRepository: Repository<Classroom>,
+
     @InjectRepository(Course)
     private readonly coursesRepository: Repository<Course>,
+
+    @InjectRepository(Student)
+    private readonly studentsRepository: Repository<Student>,
+
+    @InjectRepository(Lesson)
+    private readonly lessonsRepository: Repository<Lesson>,
+
+    @InjectRepository(Exercise)
+    private readonly exercisesRepository: Repository<Exercise>,
+
+    @InjectRepository(ExOption)
+    private readonly exOptionsRepository: Repository<ExOption>,
 
   ) {}
 
@@ -28,10 +48,26 @@ export class SeedService {
 
     await this.loadCourses();
 
+    await this.loadSubjects();
+
+    await this.loadTopics();
+
+    await this.loadLessons();
+
+    await this.loadExercises();
+
+    await this.loadExercisesOptions();
+
     return true;
   }
 
   async deleteData(): Promise<void> {
+
+    await this.exercisesRepository.createQueryBuilder()
+      .delete().where({}).execute();
+
+    await this.lessonsRepository.createQueryBuilder()
+      .delete().where({}).execute();
 
     await this.topicsRepository.createQueryBuilder()
       .delete().where({}).execute();
@@ -39,50 +75,44 @@ export class SeedService {
     await this.subjectsRepository.createQueryBuilder()
       .delete().where({}).execute();
 
-    await this.coursesRepository.createQueryBuilder()
+    await this.studentsRepository.createQueryBuilder()
       .delete().where({}).execute();
 
+    await this.classroomsRepository.createQueryBuilder()
+      .delete().where({}).execute();
+
+    await this.coursesRepository.createQueryBuilder()
+      .delete().where({}).execute();
   }
 
   async loadCourses() {
-
-    let fifth = this.coursesRepository.create({
-      title: '5to. Primaria',
-    });
-    fifth = await this.coursesRepository.save(fifth);
-
-    let sixth = this.coursesRepository.create({
-      title: '6to. Primaria',
-    });
-    sixth = await this.coursesRepository.save(sixth);
-
-    this.setSubjectsToCourse(fifth, SEED_SUBJECTS_5); 
-    this.setSubjectsToCourse(sixth, SEED_SUBJECTS_6); 
-
-    const math600 = await this.subjectsRepository.findOneBy({ code: 'MAT600' });
-    if (math600) {
-      await this.setTopicsToSubject(math600, SEED_MATH600_TOPICS);
-    }
+    await this.coursesRepository.createQueryBuilder().insert()
+      .values(SEED_COURSES).execute();
   }
 
-  async setSubjectsToCourse(course: Course, subjects: any[]): Promise<void> {
-    for (const subject of subjects) {
-      const newSubject = this.subjectsRepository.create({
-        ...subject,
-        course,
-      });
-      await this.subjectsRepository.save(newSubject); 
-    }
+  async loadSubjects() {
+    await this.subjectsRepository.createQueryBuilder().insert()
+      .values(SEED_SUBJECTS).execute();
   }
 
-  async setTopicsToSubject(subject: Subject, topics: any[]): Promise<void> {
-    for (const topic of topics) {
-      const newTopic = this.topicsRepository.create({
-        ...topic,
-        subject,
-      });
-      await this.topicsRepository.save(newTopic); 
-    }
+  async loadTopics() {
+    await this.topicsRepository.createQueryBuilder().insert()
+      .values(SEED_TOPICS).execute();
   }
+
+  async loadLessons() {
+    await this.lessonsRepository.createQueryBuilder().insert()
+      .values(SEED_LESSONS).execute();
+  }
+
+  async loadExercises() {
+    await this.exercisesRepository.createQueryBuilder().insert()
+      .values(SEED_EXERCISES).execute();
+  }
+
+  async loadExercisesOptions() {
+    await this.exOptionsRepository.createQueryBuilder().insert()
+      .values(SEED_EXERCISES_OPTIONS).execute();
+  } 
 
 }

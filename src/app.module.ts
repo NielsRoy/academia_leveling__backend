@@ -11,7 +11,6 @@ import { CommonModule } from './common/common.module';
 import { TeachersModule } from './teachers/teachers.module';
 import { StudentsModule } from './students/students.module';
 import { CoursesModule } from './courses/courses.module';
-import { SubjectsModule } from './subjects/subjects.module';
 import { AchievementsModule } from './achievements/achievements.module';
 import { SeedModule } from './seed/seed.module';
 import { StudentAchievModule } from './student_achiev/student_achiev.module';
@@ -43,7 +42,6 @@ import { StudentAchievModule } from './student_achiev/student_achiev.module';
     TeachersModule,
     StudentsModule,
     CoursesModule,
-    SubjectsModule,
     AchievementsModule,
     SeedModule,
     StudentAchievModule,

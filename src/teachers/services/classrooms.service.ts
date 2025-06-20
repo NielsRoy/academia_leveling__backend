@@ -7,7 +7,7 @@ import { Teacher } from '../entities/teacher.entity';
 import { UpdateClassroomInput } from '../dto/classroom/update-classroom.input';
 import { User } from '../../users/entities/user.entity';
 import { TeachersService } from './teachers.service';
-import { CoursesService } from '../../courses/courses.service';
+import { CoursesService } from '../../courses/services/courses.service';
 import { ErrorHandlerUtil } from '../../common/utils/error-handler.util';
 
 @Injectable()

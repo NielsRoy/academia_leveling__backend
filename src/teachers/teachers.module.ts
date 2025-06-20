@@ -27,6 +27,7 @@ import { StudentsModule } from '../students/students.module';
   exports: [
     TeachersService,
     ClassroomsService,
+    TypeOrmModule,
   ]
 })
 export class TeachersModule {}

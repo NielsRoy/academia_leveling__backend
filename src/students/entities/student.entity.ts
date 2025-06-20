@@ -3,6 +3,8 @@ import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, OneToOne, Prim
 import { User } from '../../users/entities/user.entity';
 import { Classroom } from '../../teachers/entities/classroom.entity';
 import { StudentAchiev } from 'src/student_achiev/entities/student_achiev.entity';
+import { StudentDoExercise } from './student_do_exercise.entity';
+import { Knowledge } from './knowledge.entity';
 
 @Entity({ name: 'students' })
 @ObjectType()
@@ -37,4 +39,10 @@ export class Student {
   
   @OneToMany(() => StudentAchiev, studentAchiev => studentAchiev.student)
   studentAchiev: StudentAchiev[];
+
+  @OneToMany(() => StudentDoExercise, doneExercise => doneExercise.student)
+  doneExercises: StudentDoExercise[];
+
+  @OneToMany(() => Knowledge, knowledge => knowledge.student)
+  knowledges: Knowledge[];
 }

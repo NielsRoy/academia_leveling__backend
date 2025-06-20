@@ -6,12 +6,16 @@ import { Student } from './entities/student.entity';
 import { TeachersModule } from '../teachers/teachers.module';
 import { StudentAchievModule } from '../student_achiev/student_achiev.module';
 import { UsersModule } from 'src/users/users.module';
+import { Knowledge } from './entities/knowledge.entity';
+import { StudentDoExercise } from './entities/student_do_exercise.entity';
 
 @Module({
   providers: [StudentsResolver, StudentsService],
   imports: [
     TypeOrmModule.forFeature([
       Student,
+      Knowledge,
+      StudentDoExercise,
     ]),
 
     StudentAchievModule,
@@ -21,6 +25,7 @@ import { UsersModule } from 'src/users/users.module';
   ],
   exports: [
     StudentsService,
+    TypeOrmModule,
   ]
 })
 export class StudentsModule {}
