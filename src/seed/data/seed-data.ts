@@ -1183,600 +1183,700 @@ export const SEED_USERS = [
 export const SEED_STUDENTS = [
   {
     "id": 1,
+    "classroom": { "id": 1 },
     "user": {
       "id": 1
     }
   },
   {
     "id": 2,
+    "classroom": { "id": 1 },
     "user": {
       "id": 2
     }
   },
   {
     "id": 3,
+    "classroom": { "id": 1 },
     "user": {
       "id": 3
     }
   },
   {
     "id": 4,
+    "classroom": { "id": 1 },
     "user": {
       "id": 4
     }
   },
   {
     "id": 5,
+    "classroom": { "id": 1 },
     "user": {
       "id": 5
     }
   },
   {
     "id": 6,
+    "classroom": { "id": 1 },
     "user": {
       "id": 6
     }
   },
   {
     "id": 7,
+    "classroom": { "id": 1 },
     "user": {
       "id": 7
     }
   },
   {
     "id": 8,
+    "classroom": { "id": 1 },
     "user": {
       "id": 8
     }
   },
   {
     "id": 9,
+    "classroom": { "id": 1 },
     "user": {
       "id": 9
     }
   },
   {
     "id": 10,
+    "classroom": { "id": 1 },
     "user": {
       "id": 10
     }
   },
   {
     "id": 11,
+    "classroom": { "id": 1 },
     "user": {
       "id": 11
     }
   },
   {
     "id": 12,
+    "classroom": { "id": 1 },
     "user": {
       "id": 12
     }
   },
   {
     "id": 13,
+    "classroom": { "id": 1 },
     "user": {
       "id": 13
     }
   },
   {
     "id": 14,
+    "classroom": { "id": 1 },
     "user": {
       "id": 14
     }
   },
   {
     "id": 15,
+    "classroom": { "id": 1 },
     "user": {
       "id": 15
     }
   },
   {
     "id": 16,
+    "classroom": { "id": 1 },
     "user": {
       "id": 16
     }
   },
   {
     "id": 17,
+    "classroom": { "id": 1 },
     "user": {
       "id": 17
     }
   },
   {
     "id": 18,
+    "classroom": { "id": 1 },
     "user": {
       "id": 18
     }
   },
   {
     "id": 19,
+    "classroom": { "id": 1 },
     "user": {
       "id": 19
     }
   },
   {
     "id": 20,
+    "classroom": { "id": 1 },
     "user": {
       "id": 20
     }
   },
   {
     "id": 21,
+    "classroom": { "id": 1 },
     "user": {
       "id": 21
     }
   },
   {
     "id": 22,
+    "classroom": { "id": 1 },
     "user": {
       "id": 22
     }
   },
   {
     "id": 23,
+    "classroom": { "id": 1 },
     "user": {
       "id": 23
     }
   },
   {
     "id": 24,
+    "classroom": { "id": 1 },
     "user": {
       "id": 24
     }
   },
   {
     "id": 25,
+    "classroom": { "id": 1 },
     "user": {
       "id": 25
     }
   },
   {
     "id": 26,
+    "classroom": { "id": 2 },
     "user": {
       "id": 26
     }
   },
   {
     "id": 27,
+    "classroom": { "id": 2 },
     "user": {
       "id": 27
     }
   },
   {
     "id": 28,
+    "classroom": { "id": 2 },
     "user": {
       "id": 28
     }
   },
   {
     "id": 29,
+    "classroom": { "id": 2 },
     "user": {
       "id": 29
     }
   },
   {
     "id": 30,
+    "classroom": { "id": 2 },
     "user": {
       "id": 30
     }
   },
   {
     "id": 31,
+    "classroom": { "id": 2 },
     "user": {
       "id": 31
     }
   },
   {
     "id": 32,
+    "classroom": { "id": 2 },
     "user": {
       "id": 32
     }
   },
   {
     "id": 33,
+    "classroom": { "id": 2 },
     "user": {
       "id": 33
     }
   },
   {
     "id": 34,
+    "classroom": { "id": 2 },
     "user": {
       "id": 34
     }
   },
   {
     "id": 35,
+    "classroom": { "id": 2 },
     "user": {
       "id": 35
     }
   },
   {
     "id": 36,
+    "classroom": { "id": 2 },
     "user": {
       "id": 36
     }
   },
   {
     "id": 37,
+    "classroom": { "id": 2 },
     "user": {
       "id": 37
     }
   },
   {
     "id": 38,
+    "classroom": { "id": 2 },
     "user": {
       "id": 38
     }
   },
   {
     "id": 39,
+    "classroom": { "id": 2 },
     "user": {
       "id": 39
     }
   },
   {
     "id": 40,
+    "classroom": { "id": 2 },
     "user": {
       "id": 40
     }
   },
   {
     "id": 41,
+    "classroom": { "id": 2 },
     "user": {
       "id": 41
     }
   },
   {
     "id": 42,
+    "classroom": { "id": 2 },
     "user": {
       "id": 42
     }
   },
   {
     "id": 43,
+    "classroom": { "id": 2 },
     "user": {
       "id": 43
     }
   },
   {
     "id": 44,
+    "classroom": { "id": 2 },
     "user": {
       "id": 44
     }
   },
   {
     "id": 45,
+    "classroom": { "id": 2 },
     "user": {
       "id": 45
     }
   },
   {
     "id": 46,
+    "classroom": { "id": 2 },
     "user": {
       "id": 46
     }
   },
   {
     "id": 47,
+    "classroom": { "id": 2 },
     "user": {
       "id": 47
     }
   },
   {
     "id": 48,
+    "classroom": { "id": 2 },
     "user": {
       "id": 48
     }
   },
   {
     "id": 49,
+    "classroom": { "id": 2 },
     "user": {
       "id": 49
     }
   },
   {
     "id": 50,
+    "classroom": { "id": 2 },
     "user": {
       "id": 50
     }
   },
   {
     "id": 51,
+    "classroom": { "id": 3 },
     "user": {
       "id": 51
     }
   },
   {
     "id": 52,
+    "classroom": { "id": 3 },
     "user": {
       "id": 52
     }
   },
   {
     "id": 53,
+    "classroom": { "id": 3 },
     "user": {
       "id": 53
     }
   },
   {
     "id": 54,
+    "classroom": { "id": 3 },
     "user": {
       "id": 54
     }
   },
   {
     "id": 55,
+    "classroom": { "id": 3 },
     "user": {
       "id": 55
     }
   },
   {
     "id": 56,
+    "classroom": { "id": 3 },
     "user": {
       "id": 56
     }
   },
   {
     "id": 57,
+    "classroom": { "id": 3 },
     "user": {
       "id": 57
     }
   },
   {
     "id": 58,
+    "classroom": { "id": 3 },
     "user": {
       "id": 58
     }
   },
   {
     "id": 59,
+    "classroom": { "id": 3 },
     "user": {
       "id": 59
     }
   },
   {
     "id": 60,
+    "classroom": { "id": 3 },
     "user": {
       "id": 60
     }
   },
   {
     "id": 61,
+    "classroom": { "id": 3 },
     "user": {
       "id": 61
     }
   },
   {
     "id": 62,
+    "classroom": { "id": 3 },
     "user": {
       "id": 62
     }
   },
   {
     "id": 63,
+    "classroom": { "id": 3 },
     "user": {
       "id": 63
     }
   },
   {
     "id": 64,
+    "classroom": { "id": 3 },
     "user": {
       "id": 64
     }
   },
   {
     "id": 65,
+    "classroom": { "id": 3 },
     "user": {
       "id": 65
     }
   },
   {
     "id": 66,
+    "classroom": { "id": 3 },
     "user": {
       "id": 66
     }
   },
   {
     "id": 67,
+    "classroom": { "id": 3 },
     "user": {
       "id": 67
     }
   },
   {
     "id": 68,
+    "classroom": { "id": 3 },
     "user": {
       "id": 68
     }
   },
   {
     "id": 69,
+    "classroom": { "id": 3 },
     "user": {
       "id": 69
     }
   },
   {
     "id": 70,
+    "classroom": { "id": 3 },
     "user": {
       "id": 70
     }
   },
   {
     "id": 71,
+    "classroom": { "id": 3 },
     "user": {
       "id": 71
     }
   },
   {
     "id": 72,
+    "classroom": { "id": 3 },
     "user": {
       "id": 72
     }
   },
   {
     "id": 73,
+    "classroom": { "id": 3 },
     "user": {
       "id": 73
     }
   },
   {
     "id": 74,
+    "classroom": { "id": 3 },
     "user": {
       "id": 74
     }
   },
   {
     "id": 75,
+    "classroom": { "id": 3 },
     "user": {
       "id": 75
     }
   },
   {
     "id": 76,
+    "classroom": { "id": 4 },
     "user": {
       "id": 76
     }
   },
   {
     "id": 77,
+    "classroom": { "id": 4 },
     "user": {
       "id": 77
     }
   },
   {
     "id": 78,
+    "classroom": { "id": 4 },
     "user": {
       "id": 78
     }
   },
   {
     "id": 79,
+    "classroom": { "id": 4 },
     "user": {
       "id": 79
     }
   },
   {
     "id": 80,
+    "classroom": { "id": 4 },
     "user": {
       "id": 80
     }
   },
   {
     "id": 81,
+    "classroom": { "id": 4 },
     "user": {
       "id": 81
     }
   },
   {
     "id": 82,
+    "classroom": { "id": 4 },
     "user": {
       "id": 82
     }
   },
   {
     "id": 83,
+    "classroom": { "id": 4 },
     "user": {
       "id": 83
     }
   },
   {
     "id": 84,
+    "classroom": { "id": 4 },
     "user": {
       "id": 84
     }
   },
   {
     "id": 85,
+    "classroom": { "id": 4 },
     "user": {
       "id": 85
     }
   },
   {
     "id": 86,
+    "classroom": { "id": 4 },
     "user": {
       "id": 86
     }
   },
   {
     "id": 87,
+    "classroom": { "id": 4 },
     "user": {
       "id": 87
     }
   },
   {
     "id": 88,
+    "classroom": { "id": 4 },
     "user": {
       "id": 88
     }
   },
   {
     "id": 89,
+    "classroom": { "id": 4 },
     "user": {
       "id": 89
     }
   },
   {
     "id": 90,
+    "classroom": { "id": 4 },
     "user": {
       "id": 90
     }
   },
   {
     "id": 91,
+    "classroom": { "id": 4 },
     "user": {
       "id": 91
     }
   },
   {
     "id": 92,
+    "classroom": { "id": 4 },
     "user": {
       "id": 92
     }
   },
   {
     "id": 93,
+    "classroom": { "id": 4 },
     "user": {
       "id": 93
     }
   },
   {
     "id": 94,
+    "classroom": { "id": 4 },
     "user": {
       "id": 94
     }
   },
   {
     "id": 95,
+    "classroom": { "id": 4 },
     "user": {
       "id": 95
     }
   },
   {
     "id": 96,
+    "classroom": { "id": 4 },
     "user": {
       "id": 96
     }
   },
   {
     "id": 97,
+    "classroom": { "id": 4 },
     "user": {
       "id": 97
     }
   },
   {
     "id": 98,
+    "classroom": { "id": 4 },
     "user": {
       "id": 98
     }
   },
   {
     "id": 99,
+    "classroom": { "id": 4 },
     "user": {
       "id": 99
     }
   },
   {
     "id": 100,
+    "classroom": { "id": 4 },
     "user": {
       "id": 100
     }
@@ -1787,6 +1887,7 @@ export const SEED_TEACHERS = [
   {
     "id": 1,
     "cellphone": 67788442,
+    "classroom": { "id": 1 },
     "user": {
       "id": 101
     }
@@ -1794,6 +1895,7 @@ export const SEED_TEACHERS = [
   {
     "id": 2,
     "cellphone": 67788443,
+    "classroom": { "id": 1 },
     "user": {
       "id": 102
     }
@@ -1801,6 +1903,7 @@ export const SEED_TEACHERS = [
   {
     "id": 3,
     "cellphone": 67788445,
+    "classroom": { "id": 1 },
     "user": {
       "id": 103
     }
@@ -1808,6 +1911,7 @@ export const SEED_TEACHERS = [
   {
     "id": 4,
     "cellphone": 67788446,
+    "classroom": { "id": 1 },
     "user": {
       "id": 104
     }
@@ -1816,11 +1920,30 @@ export const SEED_TEACHERS = [
 
 export const SEED_CLASSROOMS = [
   {
+    id: 1,
     name: '6to B - Los Angeles',
     teacher: { id: 1 },
     course: { id: 2 },
   },
-]
+  {
+    id: 2,
+    name: '6to A - Los Angeles',
+    teacher: { id: 2 },
+    course: { id: 2 },
+  },
+  {
+    id: 3,
+    name: '5to A - Los Angeles',
+    teacher: { id: 3 },
+    course: { id: 1 },
+  },
+  {
+    id: 4,
+    name: '5to B - Los Angeles',
+    teacher: { id: 4 },
+    course: { id: 1 },
+  },
+];
 
 export const SEED_ACHIEVEMENTS = [
   {

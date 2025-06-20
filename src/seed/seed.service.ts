@@ -70,11 +70,11 @@ export class SeedService {
 
     await this.loadUsers();
 
-    await this.loadStudents();
-
     await this.loadTeachers();
-
+    
     await this.loadClassrooms();
+    
+    await this.loadStudents();
 
     return true;
   }
@@ -95,17 +95,21 @@ export class SeedService {
     await this.subjectsRepository.createQueryBuilder()
       .delete().where({}).execute();
 
-    await this.usersRepository.createQueryBuilder()
-      .delete().where({}).execute();
-
     await this.studentsRepository.createQueryBuilder()
       .delete().where({}).execute();
 
     await this.classroomsRepository.createQueryBuilder()
       .delete().where({}).execute();
 
+    await this.usersRepository.createQueryBuilder()
+      .delete().where({}).execute();
+
+    await this.teachersRepository.createQueryBuilder()
+      .delete().where({}).execute();
+
     await this.coursesRepository.createQueryBuilder()
       .delete().where({}).execute();
+    
   }
 
   async loadCourses() {
@@ -160,7 +164,16 @@ export class SeedService {
   }
 
   async loadClassrooms() {
-    await this.classroomsRepository.createQueryBuilder().insert()
-      .values(SEED_CLASSROOMS).execute();
+    const insertQuery = `
+      INSERT INTO classrooms (id, name, teacher_id, course_id)
+      VALUES ${SEED_CLASSROOMS.map(classroom => 
+        `(${classroom.id}, '${classroom.name}', '${classroom.teacher.id}', '${classroom.course.id}')`
+      ).join(', ')}
+    `;
+
+    await this.dataSource.query(insertQuery);
+
+    // await this.classroomsRepository.createQueryBuilder().insert()
+    //   .values(SEED_CLASSROOMS).execute();
   }
 }
