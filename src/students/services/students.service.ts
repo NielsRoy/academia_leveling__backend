@@ -1,13 +1,15 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CreateStudentInput } from './dto/create-student.input';
-import { UpdateStudentInput } from './dto/update-student.input';
-import { Student } from './entities/student.entity';
+import { CreateStudentInput } from '../dto/create-student.input';
+import { UpdateStudentInput } from '../dto/update-student.input';
+import { Student } from '../entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource, QueryRunner, Repository } from 'typeorm';
-import { User } from '../users/entities/user.entity';
-import { Classroom } from '../teachers/entities/classroom.entity';
-import { ErrorHandlerUtil } from '../common/utils/error-handler.util';
-import { UsersService } from '../users/users.service';
+import { User } from '../../users/entities/user.entity';
+import { Classroom } from '../../teachers/entities/classroom.entity';
+import { ErrorHandlerUtil } from '../../common/utils/error-handler.util';
+import { UsersService } from '../../users/users.service';
+import { StudentDoExercise } from '../entities/student_do_exercise.entity';
+import { StudentDoExerciseInput } from '../dto/student-do-exercise.input';
 
 @Injectable()
 export class StudentsService {
@@ -22,6 +24,9 @@ export class StudentsService {
     private readonly usersService: UsersService,
 
     private readonly dataSource: DataSource,
+
+    @InjectRepository(StudentDoExercise)
+    private readonly stDoExRepository: Repository<StudentDoExercise>,
   ) {}
 
   async create(user: User, queryRunner: QueryRunner, createStudentInput: CreateStudentInput = {}): Promise<Student> {
@@ -65,5 +70,16 @@ export class StudentsService {
 
   remove(id: number) {
     return `This action removes a #${id} student`;
+  }
+
+  async setStudentDoExercise(user: User, studentDoExerciseInput: StudentDoExerciseInput): Promise<StudentDoExercise> {
+    const student = await this.findOneByUser(user);
+    const { exercise_id, ...rest } = studentDoExerciseInput;
+    const newStudentDoExercise = this.stDoExRepository.create({
+      ...rest,
+      exercise: { id: exercise_id },
+      student: { id: student.id },
+    });
+    return await this.stDoExRepository.save(newStudentDoExercise);
   }
 }

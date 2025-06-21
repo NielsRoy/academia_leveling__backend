@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Achievement } from 'src/achievements/entities/achievement.entity';
+import { Achievement } from 'src/students/entities/achievement.entity';
 import { Student } from 'src/students/entities/student.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 

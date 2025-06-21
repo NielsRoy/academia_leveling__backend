@@ -7,7 +7,7 @@ import { CreateClassroomInput } from '../dto/classroom/create-classroom.input';
 import { GetAuthUser } from '../../auth/decorators/get-auth-user.decorator';
 import { User } from '../../users/entities/user.entity';
 import { Student } from '../../students/entities/student.entity';
-import { StudentsService } from '../../students/students.service';
+import { StudentsService } from '../../students/services/students.service';
 import { ModuleRef } from '@nestjs/core';
 
 

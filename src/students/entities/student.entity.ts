@@ -2,7 +2,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Classroom } from '../../teachers/entities/classroom.entity';
-import { StudentAchiev } from 'src/student_achiev/entities/student_achiev.entity';
+import { StudentAchiev } from 'src/students/entities/student_achiev.entity';
 import { StudentDoExercise } from './student_do_exercise.entity';
 import { Knowledge } from './knowledge.entity';
 

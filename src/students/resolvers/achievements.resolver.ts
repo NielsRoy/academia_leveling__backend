@@ -1,8 +1,6 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { AchievementsService } from './achievements.service';
-import { Achievement } from './entities/achievement.entity';
-import { CreateAchievementInput } from './dto/create-achievement.input';
-import { UpdateAchievementInput } from './dto/update-achievement.input';
+import { AchievementsService } from '../services/achievements.service';
+import { Achievement } from '../entities/achievement.entity';
 
 @Resolver(() => Achievement)
 export class AchievementsResolver {

@@ -7,7 +7,7 @@ import { SignInInput } from './dto/inputs/sign-in.input';
 import { HASH_ADAPTER } from '../common/adapters/constants';
 import { HashAdapter } from '../common/adapters/hash/hash.adapter';
 import { SignUpStudentInput } from './dto/inputs/sign-up-student.input';
-import { StudentsService } from '../students/students.service';
+import { StudentsService } from '../students/services/students.service';
 import { Role } from './enum/role.enum';
 import { SignUpTeacherInput } from './dto/inputs/sign-up-teacher.input';
 import { TeachersService } from '../teachers/services/teachers.service';
