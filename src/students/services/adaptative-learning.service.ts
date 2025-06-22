@@ -8,6 +8,9 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from "@nestjs/config";
 import { firstValueFrom } from "rxjs";
 import { ErrorHandlerUtil } from "../../common/utils/error-handler.util";
+import { Exercise } from "../../courses/entities/exercise.entity";
+import { Student } from "../entities/student.entity";
+import { ExercisesService } from "../../courses/services/exercises.service";
 
 interface BKTInput {
     topic_id: number; 
@@ -36,8 +39,35 @@ export class AdaptativeLearningService {
         private readonly httpService: HttpService,
 
         private readonly configService: ConfigService,
+
+        private readonly exercisesService: ExercisesService,
     ) {}
 
+    async getAdaptativeExercises(student: Student): Promise<Exercise[]> {
+        const knowledges = await this.knowledgeRepository.find({
+            where: {student: { id: student.id } },
+            relations: ['topic'],
+        });
+        console.log('Student Knowledges:', knowledges);
+        const adaptativeExercises: Exercise[] = [];
+        for (const knowledge of knowledges) {
+            const { topic, PL } = knowledge;
+            const severity = PL >= 0.95 ? 'hard' : (PL >= 0.60 && PL < 0.95)  ? 'medium' : 'easy';
+            const exercises = await this.exercisesService.findAllBySeverityAndTopic(severity, topic.id);
+            //const randomExercises = this.getRandomAdaptativeExercises(exercises, 6);
+            adaptativeExercises.push(...exercises);
+            //adaptativeExercises.push(...randomExercises);
+        }
+        return adaptativeExercises;
+    }
+
+    getRandomAdaptativeExercises(exercises: Exercise[], count: number = 6): Exercise[] {
+        if (exercises.length <= count) {
+            return exercises;
+        }
+        const shuffled = exercises.sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    }
 
     async updateStudentKnowledge(usKnowledgeDto: UpdateStudentKnowledgeDto, queryRunner: QueryRunner) {
         try {

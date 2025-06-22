@@ -1,9 +1,10 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Student } from "./student.entity";
-import { Field, Int } from "@nestjs/graphql";
+import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { Topic } from "../../courses/entities/topic.entity";
 
 @Entity({ name: 'knowledges' })
+@ObjectType()
 export class Knowledge {
 
 	@PrimaryGeneratedColumn()

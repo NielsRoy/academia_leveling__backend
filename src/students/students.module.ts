@@ -15,6 +15,7 @@ import { StudentAchiev } from './entities/student_achiev.entity';
 import { AdaptativeLearningService } from './services/adaptative-learning.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
+import { CoursesModule } from '../courses/courses.module';
 
 @Module({
   providers: [
@@ -39,6 +40,7 @@ import { ConfigModule } from '@nestjs/config';
     //forwardRef(() => TeachersModule), //todo: Refactorizar estas dependencias circulares
     TeachersModule,
     ConfigModule,
+    CoursesModule,
   ],
   exports: [
     StudentsService,

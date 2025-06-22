@@ -43,6 +43,7 @@ import { TopicsService } from './services/topics.service';
   exports: [
     TypeOrmModule,
     CoursesService,
+    ExercisesService,
   ]
 })
 export class CoursesModule {}

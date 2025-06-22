@@ -13,6 +13,8 @@ import { StudentAchievService } from '../services/student_achiev.service';
 import { StudentDoExerciseInput } from '../dto/student-do-exercise.input';
 import { StudentDoExercise } from '../entities/student_do_exercise.entity';
 import { AdaptativeLearningService } from '../services/adaptative-learning.service';
+import { Exercise } from '../../courses/entities/exercise.entity';
+import { Knowledge } from '../entities/knowledge.entity';
 
 
 @Resolver(() => Student)
@@ -62,5 +64,13 @@ export class StudentsResolver {
     @GetAuthUser() user: User,
   ): Promise<StudentDoExercise> {
     return await this.studentsService.setStudentDoExercise(user, studentDoExerciseInput);
+  }
+
+  @Query(() => [Exercise], { name: 'getAdaptativeExercises' })
+  async getAdaptativeExercises(
+    @GetAuthUser() user: User,
+  ): Promise<Exercise[]> {
+    const student = await this.studentsService.findOneByUser(user);
+    return await this.adapatativeLearningService.getAdaptativeExercises(student);
   }
 }

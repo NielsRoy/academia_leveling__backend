@@ -20,6 +20,17 @@ export class ExercisesService {
     return await this.exercisesRepository.find({});
   }
 
+  async findAllBySeverityAndTopic(severity: string, topicId: number): Promise<Exercise[]> {
+    try {
+      return await this.exercisesRepository.find({
+        where: { severity, lesson: { topic: { id: topicId } } },
+        relations: ['lesson', 'options'],
+      });
+    } catch (error) {
+      ErrorHandlerUtil.handle(error, this.logger);
+    }
+  }
+
   async findOne(id: number): Promise<Exercise> {
     try {
       return await this.exercisesRepository.findOneByOrFail({ id });
