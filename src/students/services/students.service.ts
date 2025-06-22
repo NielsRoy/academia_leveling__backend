@@ -10,6 +10,8 @@ import { ErrorHandlerUtil } from '../../common/utils/error-handler.util';
 import { UsersService } from '../../users/users.service';
 import { StudentDoExercise } from '../entities/student_do_exercise.entity';
 import { StudentDoExerciseInput } from '../dto/student-do-exercise.input';
+import { AdaptativeLearningService } from './adaptative-learning.service';
+import { UpdateStudentKnowledgeDto } from '../dto/update-student-knowledge.dto';
 
 @Injectable()
 export class StudentsService {
@@ -27,6 +29,8 @@ export class StudentsService {
 
     @InjectRepository(StudentDoExercise)
     private readonly stDoExRepository: Repository<StudentDoExercise>,
+
+    private readonly adaptativeLearningService: AdaptativeLearningService,
   ) {}
 
   async create(user: User, queryRunner: QueryRunner, createStudentInput: CreateStudentInput = {}): Promise<Student> {
@@ -73,13 +77,48 @@ export class StudentsService {
   }
 
   async setStudentDoExercise(user: User, studentDoExerciseInput: StudentDoExerciseInput): Promise<StudentDoExercise> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
     const student = await this.findOneByUser(user);
     const { exercise_id, ...rest } = studentDoExerciseInput;
-    const newStudentDoExercise = this.stDoExRepository.create({
-      ...rest,
-      exercise: { id: exercise_id },
-      student: { id: student.id },
-    });
-    return await this.stDoExRepository.save(newStudentDoExercise);
+    try {
+      const std = this.stDoExRepository.create({
+        ...rest,
+        exercise: { id: exercise_id },
+        student: { id: student.id },
+      });
+
+      const newStd = await queryRunner.manager.save(std);
+      //console.log('newStudentDoExercise', newStd);
+
+      const sde = await this.stDoExRepository
+              .createQueryBuilder('sde')
+              .setQueryRunner(queryRunner)
+              .select([
+                  'sde.student_id',
+                  'sde.errors',
+                  'les.topic_id',
+              ])
+              .leftJoin('sde.exercise', 'ex')
+              .leftJoin('ex.lesson', 'les')
+              .where('sde.id = :id', { id: newStd.id })
+              .getRawOne();
+
+      const usk: UpdateStudentKnowledgeDto = {
+        student_id: sde.student_id,
+        topic_id: sde.topic_id,
+        correct: sde.sde_errors === 0 ? 1 : 0,
+      }
+      await this.adaptativeLearningService.updateStudentKnowledge(usk, queryRunner);
+      await queryRunner.commitTransaction();
+      return newStd;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      ErrorHandlerUtil.handle(error, this.logger);
+    } finally {
+      await queryRunner.release();
+    }
+    
   }
 }

@@ -144,6 +144,7 @@ type Query {
   lesson(id: Int!): Lesson!
   topics: [Topic!]!
   topic(id: Int!): Topic!
+  generateStudentsPerformanceCSV: String!
 }
 
 type Mutation {

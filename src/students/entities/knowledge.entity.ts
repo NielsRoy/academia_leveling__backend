@@ -10,8 +10,8 @@ export class Knowledge {
 	@Field( () => Int )
 	id: number;
 
-	@Column()
-  PL: number;
+	@Column({ type: 'float' })
+  	PL: number;
 
 	@ManyToOne( () => Student, (student) => student.knowledges, { nullable: false, lazy: true } )
 	@JoinColumn({ name: 'student_id' })

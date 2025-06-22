@@ -12,6 +12,7 @@ import { StudentAchiev } from '../entities/student_achiev.entity';
 import { StudentAchievService } from '../services/student_achiev.service';
 import { StudentDoExerciseInput } from '../dto/student-do-exercise.input';
 import { StudentDoExercise } from '../entities/student_do_exercise.entity';
+import { AdaptativeLearningService } from '../services/adaptative-learning.service';
 
 
 @Resolver(() => Student)
@@ -19,7 +20,8 @@ import { StudentDoExercise } from '../entities/student_do_exercise.entity';
 export class StudentsResolver {
   constructor(
     private readonly studentsService: StudentsService,
-    private readonly studentAchievService: StudentAchievService
+    private readonly studentAchievService: StudentAchievService,
+    private readonly adapatativeLearningService: AdaptativeLearningService,
   ) {}
 
   // @Query(() => [Student], { name: 'students' })

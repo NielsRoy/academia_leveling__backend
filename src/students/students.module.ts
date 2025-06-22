@@ -12,10 +12,21 @@ import { AchievementsService } from './services/achievements.service';
 import { StudentAchievService } from './services/student_achiev.service';
 import { Achievement } from './entities/achievement.entity';
 import { StudentAchiev } from './entities/student_achiev.entity';
+import { AdaptativeLearningService } from './services/adaptative-learning.service';
+import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  providers: [StudentsResolver, StudentsService, AchievementsResolver, AchievementsService, StudentAchievService],
+  providers: [
+    StudentsResolver,
+    StudentsService,
+    AchievementsResolver,
+    AchievementsService,
+    StudentAchievService,
+    AdaptativeLearningService,
+  ],
   imports: [
+    HttpModule,
     TypeOrmModule.forFeature([
       Student,
       Knowledge,
@@ -27,6 +38,7 @@ import { StudentAchiev } from './entities/student_achiev.entity';
     UsersModule,
     //forwardRef(() => TeachersModule), //todo: Refactorizar estas dependencias circulares
     TeachersModule,
+    ConfigModule,
   ],
   exports: [
     StudentsService,
