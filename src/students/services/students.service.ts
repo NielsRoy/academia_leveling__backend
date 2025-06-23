@@ -90,7 +90,6 @@ export class StudentsService {
       });
 
       const newStd = await queryRunner.manager.save(std);
-      //console.log('newStudentDoExercise', newStd);
 
       const sde = await this.stDoExRepository
               .createQueryBuilder('sde')
@@ -122,3 +121,13 @@ export class StudentsService {
     
   }
 }
+
+
+// {
+//   "studentDoExerciseInput": {
+//     "errors": 0,
+//     "exercise_id": 2,
+//     "finished_at": "2024-12-03 09:54:33",
+//     "started_at": "2024-12-03 09:55:01"
+//   }
+// }
