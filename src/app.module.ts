@@ -20,10 +20,17 @@ import { SeedModule } from './seed/seed.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
+      introspection: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     TypeOrmModule.forRoot({
+      ssl: process.env.STATE === 'prod',  //? Esta linea y la de abajo son para despliegueAdd commentMore actions
+      extra: {
+        ssl: process.env.STATE === 'prod'
+          ? { rejectUnauthorized: false }
+          : null,
+      },
       type: 'postgres',
       host: process.env.DB_HOST,
       port: +(process.env.DB_PORT ?? 8000),
