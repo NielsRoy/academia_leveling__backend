@@ -54,9 +54,9 @@ export class AdaptativeLearningService {
             const { topic, PL } = knowledge;
             const severity = PL >= 0.95 ? 'hard' : (PL >= 0.60 && PL < 0.95)  ? 'medium' : 'easy';
             const exercises = await this.exercisesService.findAllBySeverityAndTopic(severity, topic.id);
-            //const randomExercises = this.getRandomAdaptativeExercises(exercises, 6);
-            adaptativeExercises.push(...exercises);
-            //adaptativeExercises.push(...randomExercises);
+            const randomExercises = this.getRandomAdaptativeExercises(exercises, 10);
+            //adaptativeExercises.push(...exercises);
+            adaptativeExercises.push(...randomExercises);
         }
         return adaptativeExercises;
     }
