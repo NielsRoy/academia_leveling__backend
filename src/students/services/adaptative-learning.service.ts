@@ -11,6 +11,7 @@ import { ErrorHandlerUtil } from "../../common/utils/error-handler.util";
 import { Exercise } from "../../courses/entities/exercise.entity";
 import { Student } from "../entities/student.entity";
 import { ExercisesService } from "../../courses/services/exercises.service";
+import { Topic } from "../../courses/entities/topic.entity";
 
 interface BKTInput {
     topic_id: number; 
@@ -59,6 +60,24 @@ export class AdaptativeLearningService {
             adaptativeExercises.push(...randomExercises);
         }
         return adaptativeExercises;
+    }
+
+    async getAdaptativeExercisesByTopic(student: Student, topic: Topic): Promise<Exercise[]> {
+        try {
+            const topicKnowledge = await this.knowledgeRepository.findOneOrFail({
+                where: {
+                    student: { id: student.id },
+                    topic: { id: topic.id },
+                },
+            });
+            const { PL } = topicKnowledge;
+            const severity = PL >= 0.95 ? 'hard' : (PL >= 0.60 && PL < 0.95)  ? 'medium' : 'easy';
+            const exercises = await this.exercisesService.findAllBySeverityAndTopic(severity, topic.id);
+            const randomExercises = this.getRandomAdaptativeExercises(exercises, 10);
+            return randomExercises;
+        } catch (error) {
+            ErrorHandlerUtil.handle(error, this.logger);
+        }
     }
 
     getRandomAdaptativeExercises(exercises: Exercise[], count: number = 6): Exercise[] {

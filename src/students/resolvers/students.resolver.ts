@@ -15,6 +15,7 @@ import { StudentDoExercise } from '../entities/student_do_exercise.entity';
 import { AdaptativeLearningService } from '../services/adaptative-learning.service';
 import { Exercise } from '../../courses/entities/exercise.entity';
 import { Knowledge } from '../entities/knowledge.entity';
+import { TopicsService } from '../../courses/services/topics.service';
 
 
 @Resolver(() => Student)
@@ -24,6 +25,7 @@ export class StudentsResolver {
     private readonly studentsService: StudentsService,
     private readonly studentAchievService: StudentAchievService,
     private readonly adapatativeLearningService: AdaptativeLearningService,
+    private readonly topicsService: TopicsService,
   ) {}
 
   // @Query(() => [Student], { name: 'students' })
@@ -69,8 +71,10 @@ export class StudentsResolver {
   @Query(() => [Exercise], { name: 'getAdaptativeExercises' })
   async getAdaptativeExercises(
     @GetAuthUser() user: User,
+    @Args('topicId', { type: () => Int }, ParseIntPipe) topicId: number,
   ): Promise<Exercise[]> {
     const student = await this.studentsService.findOneByUser(user);
-    return await this.adapatativeLearningService.getAdaptativeExercises(student);
+    const topic = await this.topicsService.findOne(topicId);
+    return await this.adapatativeLearningService.getAdaptativeExercisesByTopic(student, topic);
   }
 }
