@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Subject } from '../../courses/entities/subject.entity';
 import { DataSource, Repository } from 'typeorm';
 import { Course } from '../../courses/entities/course.entity';
-import { SEED_CLASSROOMS, SEED_COURSES, SEED_EXERCISES, SEED_EXERCISES_OPTIONS, SEED_LESSONS, SEED_SDE, SEED_STUDENTS, SEED_SUBJECTS, SEED_TEACHERS, SEED_TOPICS, SEED_USERS } from '../data/seed-data';
+import { SEED_CLASSROOMS, SEED_COURSES, SEED_SDE, SEED_STUDENTS, SEED_SUBJECTS, SEED_TEACHERS, SEED_TOPICS, SEED_USERS } from '../data/seed-data';
 import { Topic } from '../../courses/entities/topic.entity';
 import { Classroom } from '../../teachers/entities/classroom.entity';
 import { Student } from '../../students/entities/student.entity';
@@ -14,6 +14,8 @@ import { User } from '../../users/entities/user.entity';
 import { Teacher } from '../../teachers/entities/teacher.entity';
 import { Knowledge } from 'src/students/entities/knowledge.entity';
 import { StudentDoExercise } from 'src/students/entities/student_do_exercise.entity';
+import { SEED_LESSONS } from '../data/seed-lessons.data';
+import { SEED_EXERCISES, SEED_EXERCISES_OPTIONS } from '../data/seed-exercise.data';
 
 @Injectable()
 export class SeedService {
