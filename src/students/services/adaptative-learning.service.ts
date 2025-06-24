@@ -130,7 +130,7 @@ export class AdaptativeLearningService {
         const BKT_API = this.configService.get<string>('BKT_API');
         const url = `${BKT_API}/predict-student-knowledge`;
         const response = await firstValueFrom(this.httpService.post(url, bktInput));
-        console.log('BKT Model Response:', response.data);
+        //console.log('BKT Model Response:', response.data);
         return response.data;
     }
 }

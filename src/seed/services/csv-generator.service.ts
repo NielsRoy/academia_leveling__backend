@@ -33,9 +33,9 @@ export class CsvGeneratorService {
           //const filePath = join(__dirname, '..', '..', 'exports', 'students_performance.csv');
   
           const data = await this.getStudentsPerformance();
-          for (const item of data) {
-              console.log(item);
-          }
+        //   for (const item of data) {
+        //       console.log(item);
+        //   }
   
           const csvData = data.map((item) => ({
               student_id: item.student_id,

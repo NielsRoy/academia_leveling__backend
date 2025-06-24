@@ -16,6 +16,7 @@ import { Knowledge } from 'src/students/entities/knowledge.entity';
 import { StudentDoExercise } from 'src/students/entities/student_do_exercise.entity';
 import { SEED_LESSONS } from '../data/seed-lessons.data';
 import { SEED_EXERCISES, SEED_EXERCISES_OPTIONS } from '../data/seed-exercise.data';
+import { StudentsService } from '../../students/services/students.service';
 
 @Injectable()
 export class SeedService {
@@ -59,6 +60,7 @@ export class SeedService {
 
     private readonly dataSource: DataSource,
 
+    private readonly studentsService: StudentsService,
   ) {}
 
   async executeSeed(): Promise<boolean> {
@@ -84,6 +86,8 @@ export class SeedService {
     await this.loadClassrooms();
     
     await this.loadStudents();
+
+    await this.loadSDE();
 
     return true;
   }
@@ -171,8 +175,6 @@ export class SeedService {
   async loadStudents() {
     await this.studentsRepository.createQueryBuilder().insert()
       .values(SEED_STUDENTS).execute();
-
-    console.log('count registros sde', SEED_SDE.length);
   }
 
   async loadTeachers() {
@@ -192,5 +194,18 @@ export class SeedService {
 
     // await this.classroomsRepository.createQueryBuilder().insert()
     //   .values(SEED_CLASSROOMS).execute();
+  }
+
+  async loadSDE() {
+    console.log('count registros sde', SEED_SDE.length);
+
+    // await this.sdeRepository.createQueryBuilder().insert()
+    //   .values(SEED_SDE).execute();
+
+    for (const sde of SEED_SDE) {
+      await this.studentsService.setStudentDoExerciseRaw(sde);
+    }
+
+    console.log('registros sde insertados');
   }
 }

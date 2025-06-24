@@ -3,7 +3,7 @@ import { CreateStudentInput } from '../dto/create-student.input';
 import { UpdateStudentInput } from '../dto/update-student.input';
 import { Student } from '../entities/student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, QueryRunner, Repository } from 'typeorm';
+import { DataSource, DeepPartial, QueryRunner, Repository } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Classroom } from '../../teachers/entities/classroom.entity';
 import { ErrorHandlerUtil } from '../../common/utils/error-handler.util';
@@ -76,11 +76,11 @@ export class StudentsService {
     return `This action removes a #${id} student`;
   }
 
-  async setStudentDoExercise(user: User, studentDoExerciseInput: StudentDoExerciseInput): Promise<StudentDoExercise> {
+  async setStudentDoExercise(student: Student, studentDoExerciseInput: StudentDoExerciseInput): Promise<StudentDoExercise> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
-    const student = await this.findOneByUser(user);
+    //const student = await this.findOneByUser(user);
     const { exercise_id, ...rest } = studentDoExerciseInput;
     try {
       const std = this.stDoExRepository.create({
@@ -88,6 +88,46 @@ export class StudentsService {
         exercise: { id: exercise_id },
         student: { id: student.id },
       });
+
+      const newStd = await queryRunner.manager.save(std);
+
+      const sde = await this.stDoExRepository
+              .createQueryBuilder('sde')
+              .setQueryRunner(queryRunner)
+              .select([
+                  'sde.student_id',
+                  'sde.errors',
+                  'les.topic_id',
+              ])
+              .leftJoin('sde.exercise', 'ex')
+              .leftJoin('ex.lesson', 'les')
+              .where('sde.id = :id', { id: newStd.id })
+              .getRawOne();
+
+      const usk: UpdateStudentKnowledgeDto = {
+        student_id: sde.student_id,
+        topic_id: sde.topic_id,
+        correct: sde.sde_errors === 0 ? 1 : 0,
+      }
+      await this.adaptativeLearningService.updateStudentKnowledge(usk, queryRunner);
+      await queryRunner.commitTransaction();
+      return newStd;
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      ErrorHandlerUtil.handle(error, this.logger);
+    } finally {
+      await queryRunner.release();
+    }
+    
+  }
+
+  async setStudentDoExerciseRaw(sdeInput: DeepPartial<StudentDoExercise>): Promise<StudentDoExercise> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    //const student = await this.findOneByUser(user);
+    try {
+      const std = this.stDoExRepository.create(sdeInput);
 
       const newStd = await queryRunner.manager.save(std);
 

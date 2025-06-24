@@ -56,4 +56,9 @@ export class TeachersResolver {
   ): Promise<Classroom[]> {
     return this.classroomsService.findAllByTeacher(teacher);
   }
+
+  // @ResolveField( () => [Classroom], { name: 'getStudentPerformance' } )
+  // async getStudentPerformance() {
+
+  // }
 }

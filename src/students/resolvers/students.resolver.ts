@@ -65,7 +65,8 @@ export class StudentsResolver {
     @Args('studentDoExerciseInput') studentDoExerciseInput: StudentDoExerciseInput,
     @GetAuthUser() user: User,
   ): Promise<StudentDoExercise> {
-    return await this.studentsService.setStudentDoExercise(user, studentDoExerciseInput);
+    const student = await this.studentsService.findOneByUser(user);
+    return await this.studentsService.setStudentDoExercise(student, studentDoExerciseInput);
   }
 
   @Query(() => [Exercise], { name: 'getAdaptativeExercises' })
