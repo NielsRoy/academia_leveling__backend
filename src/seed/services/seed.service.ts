@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Subject } from '../../courses/entities/subject.entity';
 import { DataSource, Repository } from 'typeorm';
 import { Course } from '../../courses/entities/course.entity';
-import { SEED_CLASSROOMS, SEED_COURSES, SEED_EXERCISES, SEED_EXERCISES_OPTIONS, SEED_LESSONS, SEED_STUDENTS, SEED_SUBJECTS, SEED_TEACHERS, SEED_TOPICS, SEED_USERS } from '../data/seed-data';
+import { SEED_CLASSROOMS, SEED_COURSES, SEED_EXERCISES, SEED_EXERCISES_OPTIONS, SEED_LESSONS, SEED_SDE, SEED_STUDENTS, SEED_SUBJECTS, SEED_TEACHERS, SEED_TOPICS, SEED_USERS } from '../data/seed-data';
 import { Topic } from '../../courses/entities/topic.entity';
 import { Classroom } from '../../teachers/entities/classroom.entity';
 import { Student } from '../../students/entities/student.entity';
@@ -12,11 +12,18 @@ import { Exercise } from '../../courses/entities/exercise.entity';
 import { ExOption } from '../../courses/entities/ex_option.entity';
 import { User } from '../../users/entities/user.entity';
 import { Teacher } from '../../teachers/entities/teacher.entity';
+import { Knowledge } from 'src/students/entities/knowledge.entity';
+import { StudentDoExercise } from 'src/students/entities/student_do_exercise.entity';
 
 @Injectable()
 export class SeedService {
 
   constructor(
+    @InjectRepository(Knowledge)
+    private readonly knowledgeRepository: Repository<Knowledge>,
+
+    @InjectRepository(StudentDoExercise)
+    private readonly sdeRepository: Repository<StudentDoExercise>,
 
     @InjectRepository(ExOption)
     private readonly exOptionsRepository: Repository<ExOption>,
@@ -80,6 +87,12 @@ export class SeedService {
   }
 
   async deleteData(): Promise<void> {
+    await this.knowledgeRepository.createQueryBuilder()
+      .delete().where({}).execute();
+
+    await this.sdeRepository.createQueryBuilder()
+      .delete().where({}).execute();
+
     await this.exOptionsRepository.createQueryBuilder()
       .delete().where({}).execute();
 
@@ -156,6 +169,8 @@ export class SeedService {
   async loadStudents() {
     await this.studentsRepository.createQueryBuilder().insert()
       .values(SEED_STUDENTS).execute();
+
+    console.log('count registros sde', SEED_SDE.length);
   }
 
   async loadTeachers() {
